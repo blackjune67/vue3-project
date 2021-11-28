@@ -74,3 +74,30 @@ export default {
 };
 
 ```
+
+### 4. ref와 reactive
+
+**ref** 같은 경우 숫자, String, Object, Array가 사용 가능하다.  
+접근은 .value로 가능.
+
+**reactive** 는 오브젝트나 Array만 사용 가능하다.
+접근은 해당 오브젝트의 속성(?)접근이 가능하다.
+아래 코드를 보면 name2 오브젝트의 id로 접근할 수 있다.
+
+```
+import { ref, reactive } from 'vue';
+
+const name2 = reactive({
+      id : 1
+    })
+
+let sString = ref('');
+let sInt = ref(1);
+let sArray = ref([]);
+let sObject = ref({});
+
+const updateName = () => {
+    name2.id = 2; //id로 접근이 가능!
+}
+
+```
