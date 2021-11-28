@@ -101,3 +101,42 @@ const updateName = () => {
 }
 
 ```
+
+### 5. v-bind, v-on
+***v-bind***와 ***v-on***이 있다.
+v-bind는 바인딩을 하는 경우에 사용하며, v-on:click은 클릭 이벤트를 사용할 때 가능하다.
+
+v-bind, v-on은 축약해서 사용이 가능하다.
+
+* v-bind ➡ :
+* v-on:click ➡ @click
+
+
+```
+<input
+    v-bind:type="type"
+    v-bind:value="name"
+>
+
+⬇ 축약이 가능하다.[1]
+
+<input
+    :type="type"
+    :value="name"
+>
+
+
+<button 
+      class="btn btn-primary"
+      v-on:click="updateName"
+    >Click
+</button>
+
+⬇ 축약이 가능하다.[2]
+
+<button 
+      class="btn btn-primary"
+      @click="updateName"
+    >Click
+</button>
+```
