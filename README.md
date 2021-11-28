@@ -103,9 +103,8 @@ const updateName = () => {
 ```
 
 ### 5. v-bind, v-on
-***v-bind***와 ***v-on***이 있다.
-v-bind는 바인딩을 하는 경우에 사용하며, v-on:click은 클릭 이벤트를 사용할 때 가능하다.
-
+***v-bind***와 ***v-on***이 있다.  
+v-bind는 데이터 바인딩을 하는 경우에 사용하며, v-on:click은 클릭 이벤트를 사용할 때 가능하다.  
 v-bind, v-on은 축약해서 사용이 가능하다.
 
 * v-bind ➡ :
@@ -125,7 +124,6 @@ v-bind, v-on은 축약해서 사용이 가능하다.
     :value="name"
 >
 
-
 <button 
       class="btn btn-primary"
       v-on:click="updateName"
@@ -139,4 +137,81 @@ v-bind, v-on은 축약해서 사용이 가능하다.
       @click="updateName"
     >Click
 </button>
+```
+
+### 6. 양방향 바인딩 (v-model)
+사용자가 검색을 했을 때 데이터가 표시된다거나, input박스에 값을 넣어서 기존 데이터를 변경한다거나 등을 양방향 데이터 바인딩이라 한다.
+
+이 부분을 아래 코드로 간단히 구현해봤다.
+
+```
+<template>
+    <input
+     type="text"
+     :value="name"
+     @input="updateName"
+     >
+    <button 
+      class="btn btn-primary"
+      @click="onSubmit"
+    >Click</button>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  setup() {
+    const name = ref('최하준');
+
+    const onSubmit = () => {
+      console.log(name.value);
+    }
+
+     const updateName = (e) => {
+      name.value = e.target.value;
+    }
+
+    return {
+      name,
+      onSubmit,
+      updateName
+    };
+  },
+};
+</script>
+
+```
+위의 코드를 v-model을 사용함으로 코드를 줄일 수 있다.
+
+```
+<template>
+    <input
+     type="text"
+     v-model="name"
+     >
+    <button 
+      class="btn btn-primary"
+      @click="onSubmit"
+    >Click</button>
+</template>
+
+<script>
+import { ref } from 'vue';
+
+export default {
+  setup() {
+    const name = ref('최하준');
+
+    const onSubmit = () => {
+      console.log(name.value);
+    }
+
+    return {
+      name,
+      onSubmit,
+    };
+  },
+};
+</script>
 ```
