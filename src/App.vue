@@ -1,22 +1,34 @@
 <template>
-    <div class="name">{{ greet }}</div>
-
+    <div class="name">
+      {{ name }}
+    </div>
+    <button 
+      class="btn btn-primary"
+      v-on:click="updateName"
+    >Click</button>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
   setup() {
-    const name = "최하준1";
+    let name = ref("최하준1");
 
-    const greeting = (name) => {
-      return 'hello, ' + name;
-    };
+    // const greeting = (name) => {
+    //   return 'hello, ' + name;
+    // };
 
-    const greet = greeting(name);
-    
+    // const greet = greeting(name);
+
+    const updateName = () => {
+      name.value = '최하준';
+      console.log(name);
+    }
 
     return {
-      greet
+      updateName,
+      name
     };
   },
 };
