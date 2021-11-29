@@ -216,7 +216,47 @@ export default {
 </script>
 ```
 ### 7. To-Do List 만들기
+
+>form 태그 특성
+
 `<form></form>` 태그는 submit하게 되면 화면을 리로딩(r)하게 된다 html form 태그의 특징.  
 `e.preventDefault();` 를 사용해서 화면 리로딩을 막는다.  
 vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과를 볼 수 있다.  
 ➡  [vue3 onSubmit Document](https://v3.vuejs.org/guide/template-syntax.html#dynamic-arguments)
+
+>v-for
+
+
+자바스크립트의 for...in과 비슷하다.  
+`todo in todos` 에서 **todo**는 별칭으로 개발자가 임의의 alias로 지정이 가능하다.   
+다만 v-for를 하게 되면 :key 값을 바인딩해줘야한다. (v-for에 key를 추가하는 것이 좋다고 한다.)
+➡  [vue2 v-for document](https://kr.vuejs.org/v2/guide/list.html)
+
+```
+  <div
+    v-for="todo in todos"
+    :key="todo.id"
+    class="card mt-2">
+```
+
+>v-show vs v-if
+
+v-if
+```
+<div v-if="toggle">true</div>
+<div v-else>false</div>
+<button @click="onToggle">toggle</button>
+```
+
+v-for
+```
+<div v-show="toggle">true</div>
+<div v-show="!toggle">false</div>
+<button @click="onToggle">toggle</button>
+```
+
+일반적으로 v-if토글 비용 v-show이 높지만 초기 렌더링 비용이 더 높습니다.  
+따라서 v-show무언가를 매우 자주 토글해야 하는 v-if경우 선호 하고 런타임에 조건이 변경되지 않을 경우 선호 합니다.
+
+※ v-if와 v-for함께 사용하는 것은 권장되지 않습니다 . 자세한 내용은 스타일 가이드 를 참조 하세요.
+➡  [vue3 v-if, v-show document](https://v3.vuejs.org/guide/conditional.html#v-show)

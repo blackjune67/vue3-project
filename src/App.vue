@@ -1,26 +1,29 @@
 <template>
-<div class="container">
-  <h2>To-Do List</h2>
-  <form 
-    @submit.prevent="onSubmit"
-    class="d-flex">
-    <div class="flex-gorw-1 mr-2">
-      <input class="form-control" type="text" v-model="todo" placeholder="Type new to-do"/>
-    </div>
-    <div>
-      <button class="btn btn-primary" type="submit">Add</button>
-    </div>
-  </form>
-  <div
-    v-for="todo in todos"
-    :key="todo.id"
-    class="card mt-2">
+  <div class="container">
+    <h2>To-Do List</h2>
+    <form @submit.prevent="onSubmit">
+      <div class="d-flex">
+        <div class="flex-gorw-1 mr-2">
+          <input
+            class="form-control"
+            type="text"
+            v-model="todo"
+            placeholder="Type new to-do"
+          />
+        </div>
+        <div>
+          <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+      </div>
 
-    <div class="card-body p-2">
-      {{ todo.subject }}
+      <div v-show="hasError" style="color: red">할일이 없습니다.</div>
+    </form>
+    <div v-for="todo in todos" :key="todo.id" class="card mt-2">
+      <div class="card-body p-2">
+        {{ todo.subject }}
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -28,23 +31,31 @@ import { ref } from "vue";
 
 export default {
   setup() {
-    const todo = ref('');
+    const todo = ref("");
     const todos = ref([
-      {id: 1, subject: '신입사원 OT'},
-      {id: 2, subject: '장보기'}
+      { id: 1, subject: "신입사원 OT" },
+      { id: 2, subject: "장보기" },
     ]);
 
+    const hasError = ref(false);
+
     const onSubmit = () => {
-      todos.value.push({
-        id: Date.now(),
-        subject: todo.value
-      })
+      if (todo.value === "") {
+        hasError.value = true;
+      } else {
+        todos.value.push({
+          id: Date.now(),
+          subject: todo.value,
+        });
+        hasError.value = false;
+      }
     };
 
     return {
       todo,
       todos,
       onSubmit,
+      hasError,
     };
   },
 };
