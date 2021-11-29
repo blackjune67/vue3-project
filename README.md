@@ -215,9 +215,8 @@ export default {
 };
 </script>
 ```
-
 ### 7. To-Do List 만들기
 `<form></form>` 태그는 submit하게 되면 화면을 리로딩(r)하게 된다 html form 태그의 특징.  
 `e.preventDefault();` 를 사용해서 화면 리로딩을 막는다.  
 vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과를 볼 수 있다.  
-➡  [vue3 onSubmit](https://v3.vuejs.org/guide/template-syntax.html#dynamic-arguments)
+➡  [vue3 onSubmit Document](https://v3.vuejs.org/guide/template-syntax.html#dynamic-arguments)
