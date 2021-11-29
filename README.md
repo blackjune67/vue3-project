@@ -229,7 +229,8 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 
 자바스크립트의 for...in과 비슷하다.  
 `todo in todos` 에서 **todo**는 별칭으로 개발자가 임의의 alias로 지정이 가능하다.   
-다만 v-for를 하게 되면 :key 값을 바인딩해줘야한다. (v-for에 key를 추가하는 것이 좋다고 한다.)
+다만 v-for를 하게 되면 :key 값을 바인딩해줘야한다. (v-for에 key를 추가하는 것이 좋다고 한다.)  
+
 ➡  [vue2 v-for document](https://kr.vuejs.org/v2/guide/list.html)
 
 ```
@@ -281,5 +282,13 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
   :class="{ todo: todo.completed }"
 >
 ```
+➡  [vue3 Class and Style Bindings document](https://v3.vuejs.org/guide/class-and-style.html#binding-html-classes)  
+   
+> v-for index
+v-for문에는 index를 지정해서 사용이 가능하다.
 
-➡  [vue3 Class and Style Bindings document](https://v3.vuejs.org/guide/class-and-style.html#binding-html-classes)
+```
+<div v-for="(todo, index) in todos" :key="todo.id" class="card mt-2">
+```
+  
+➡  [vue3 v-for index document](https://v3.vuejs.org/guide/list.html#mapping-an-array-to-elements-with-v-for)
