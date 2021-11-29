@@ -241,22 +241,45 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 
 >v-show vs v-if
 
-v-if
+* v-if
 ```
 <div v-if="toggle">true</div>
 <div v-else>false</div>
 <button @click="onToggle">toggle</button>
 ```
 
-v-for
+* v-for
 ```
 <div v-show="toggle">true</div>
 <div v-show="!toggle">false</div>
 <button @click="onToggle">toggle</button>
 ```
-
+  
+***document 설명***  
 일반적으로 v-if토글 비용 v-show이 높지만 초기 렌더링 비용이 더 높습니다.  
 따라서 v-show무언가를 매우 자주 토글해야 하는 v-if경우 선호 하고 런타임에 조건이 변경되지 않을 경우 선호 합니다.
 
-※ v-if와 v-for함께 사용하는 것은 권장되지 않습니다 . 자세한 내용은 스타일 가이드 를 참조 하세요.
+😫 v-if와 v-for함께 사용하는 것은 권장되지 않습니다 . 자세한 내용은 스타일 가이드 를 참조 하세요.  
 ➡  [vue3 v-if, v-show document](https://v3.vuejs.org/guide/conditional.html#v-show)
+  
+> style binding
+
+스타일을 바인딩하는 방법에는 여러가지가 있지만 여기서는 ***object바인딩***과 ***class바인딩***을 실습해본다.
+
+* 오브젝트 바인딩
+```
+<label 
+  class="form-check-label"
+  :style="todo.completed ? todoStyle : {}"
+>
+```
+
+* 클래스 바인딩
+```
+<label 
+  class="form-check-label"
+  :class="{ todo: todo.completed }"
+>
+```
+
+➡  [vue3 Class and Style Bindings document](https://v3.vuejs.org/guide/class-and-style.html#binding-html-classes)
