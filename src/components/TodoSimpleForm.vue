@@ -22,7 +22,7 @@
 import { ref } from "vue";
 
 export default {
-  emmit: ['add-todo'],
+  emmit: ["add-todo"],
   components: {},
   setup(props, { emit }) {
     const todo = ref("");

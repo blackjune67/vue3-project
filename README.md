@@ -545,3 +545,66 @@ v-model에 사용되는 todo의 completed는 결과적으로 todos의 프로퍼�
     v-model="todo.completed"
   />
 ```
+
+**반응성(reactivity)**  
+반응성의 대표적인 예는 엑셀의 스프레드 시트이다.
+각각의 셀에 숫자를 입력하고 나중에 SUM 함수를 요청하면 그 결과를 제공하는데, 이는 첫번째 숫자를 변경하면 SUM에서는 자동적으로 변경이 된다. 이것이 반응성, 반응형이라고 얘기한다.  
+➡  [vue3 반응성 Document](https://v3.ko.vuejs.org/guide/reactivity.html#%E1%84%87%E1%85%A1%E1%86%AB%E1%84%8B%E1%85%B3%E1%86%BC%E1%84%89%E1%85%A5%E1%86%BC-reactivity-%E1%84%8B%E1%85%B5%E1%84%85%E1%85%A1%E1%86%AB)  
+
+자바스크립트 자체에서는 이렇게 반응성에 대해서 동작하지 않는다.  
+
+vue에서 반응성으로 동작하는 원리.  
+
+1) 자바스립트 객체를 data 옵션 or 컴포넌트 인스턴스에 전달  
+2) 객체의 모든 프로퍼티를 Proxt로 변환(ES6 이상에서만 지원, IE에서도 가능은 함.)
+***프락시는 다른 객체나 함수를 감싸는 Wrapper객체를 의미, 원본으로의 호출을 중간에 가로채서 처리함.***  
+
+
+> computed  
+➡  [vue3 Computed Document](https://v3.vuejs.org/guide/computed.html#computed-caching-vs-methods)
+
+computed()와 일반메서드의 차이점  
+1. Computed는 인자로 받을 수 없다. reactive state가 있을 때만 변경될 때만 값을 저장한다.
+2. Computed는 캐쉬를 한다.
+
+```
+<template>
+  <h4>duble count: {{ doubleCount }}</h4>
+  <h4>duble count: {{ doubleCount }}</h4>
+
+  <h4>dubleMethod count: {{ doubleCountMethod() }}</h4>
+  <h4>dubleMethod count: {{ doubleCountMethod() }}</h4>
+</template>
+
+<script>
+    const count = ref(1);
+    const doubleCount = computed(() => {
+      console.log('computed')
+      return count.value *2;
+    })
+
+    const doubleCountMethod = () => {
+      console.log('method')
+      return count.value * 2;
+    }
+</script>
+```
+
+```
+결과 :   
+computed//Computed는 캐싱되어 한번만 호출되는 것을 알 수 있다.
+method //메서드는 콘솔 method를 두번 호출하는 것을 볼 수 있다.
+method
+```
+
+### 8. To-Do 검색기능 추가하기
+
+**자바스크립트 Method**  
+filter: 특정 조건을 만족할 때 새로운 배열을 만든다.  
+includes: 특정 요소를 포함하고 있는지 판별.  
+
+### 9. sample-database 연동하기 (json-server)  
+
+➡  [json-server 설치](https://www.npmjs.com/package/json-server)  
+➡  [axios 설치](https://www.npmjs.com/package/axios)  
+

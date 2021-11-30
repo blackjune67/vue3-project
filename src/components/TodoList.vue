@@ -6,7 +6,7 @@
           class="form-check-input"
           type="checkbox"
           :value="vTodo.completed"
-          @change='toggleTodo(index)'
+          @change="toggleTodo(index)"
         />
         <!-- <label 
             class="form-check-label"
@@ -18,7 +18,7 @@
       </div>
 
       <div>
-        <button class="btn btn-danger btn-sm" @click='deleteTodo(index)'>
+        <button class="btn btn-danger btn-sm" @click="deleteTodo(index)">
           삭제
         </button>
       </div>
@@ -28,6 +28,7 @@
 
 <script>
 export default {
+  emits: ["toggle-todo", "toggle-delete"],
   props: {
     todos: {
       type: Array,
@@ -36,11 +37,11 @@ export default {
   },
   setup(props, { emit }) {
     const toggleTodo = (index) => {
-      emit('toggle-todo', index);
+      emit("toggle-todo", index);
     };
 
     const deleteTodo = (index) => {
-      emit('toggle-delete', index);
+      emit("toggle-delete", index);
     };
 
     return {
