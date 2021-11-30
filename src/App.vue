@@ -4,7 +4,7 @@
     <TodoSimpleForm @add-todo="addTodo"/>
 
     <div v-if="!todos.length">추가된 To-Do가 없습니다.</div>
-    <TodoList :todos="todos" />
+    <TodoList :todos="todos" @toggle-todo='toggleTodo' @toggle-delete='deleteTodo'/>
   </div>
 </template>
 
@@ -32,14 +32,20 @@ export default {
       todos.value.push(todo);
     };
 
-    const deleteTodo = (index) => {
-      todos.value.splice(index, 1); //그 자리에 있는 인덱스 하나를 추출한다 (추출된 나머지가 표시.)
-      //console.log(todos.value)
+    const toggleTodo = (index) => {
+      todos.value[index].completed = !todos.value[index].completed;
     };
+
+    const deleteTodo = (index) => {
+      todos.value.splice(index, 1);
+    }
+
+
+
 
     return {
       todos,
-      //todoStyle,
+      toggleTodo,
       deleteTodo,
       addTodo,
       TodoList
@@ -49,7 +55,7 @@ export default {
 </script>
 
 <style>
-.todo {
+.vTodo {
   text-decoration: line-through;
   color: gray;
 }

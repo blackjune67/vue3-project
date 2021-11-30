@@ -22,6 +22,7 @@
 import { ref } from "vue";
 
 export default {
+  emmit: ['add-todo'],
   components: {},
   setup(props, { emit }) {
     const todo = ref("");
@@ -34,7 +35,7 @@ export default {
         emit("add-todo", {
           id: Date.now(),
           subject: todo.value,
-          completed: false, //완료 여부
+          completed: false, //체크박스 완료 여부 false: 체크헤제, true: 체크.
         }); //이벤트 이름을 전달.
 
         hasError.value = false;
