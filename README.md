@@ -608,3 +608,107 @@ includes: 특정 요소를 포함하고 있는지 판별.
 ➡  [json-server 설치](https://www.npmjs.com/package/json-server)  
 ➡  [axios 설치](https://www.npmjs.com/package/axios)  
 
+### 10. async / await  
+
+async/await 문법 적용 전
+```
+  const res = await axios.post('http://localhost:3000/todos', {
+    subject: todo.subject,
+    completed: todo.completed
+  }).then(res => {
+    console.log('성공, response : ' + JSON.stringify(res.data))
+    todos.value.push(res.data);
+  }).catch(err => {
+    console.log('실패, ERROR : ' + JSON.stringify(err.data))
+    error.value = '어떤 에러가 발생했습니다.'
+  })
+```
+
+async/await 문법 적용 후
+```
+  try {
+    const res = await axios.post('http://localhost:3000/todos', {
+      subject: todo.subject,
+      completed: todo.completed
+  });
+    todos.value.push(res.data);
+  } catch(err) {
+    console.log('실패, ERROR : ' + JSON.stringify(err.data))
+    error.value = '어떤 에러가 발생했습니다.';
+  }
+```
+
+### 11. json-server를 통해서 get, post 요청 처리하기.  
+➡  [json-server Document](https://www.npmjs.com/package/json-server)  
+
+REST API 형태를 통해서 POST, GET, PATCH, DELETE를 통해서 DB에 있는 데이터를 트랜잭션해본다.  
+
+GET을 통해서 To-Do 데이터 갖고오기.  
+```
+  const getTodos = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/todos')
+      // todos.value.push(res.data);
+      todos.value = res.data;
+    } catch (err) {
+      console.log('>>> erro : ' + err)
+      error.value = '어떤 에러가 발생했습니다.';
+    }
+  };
+```
+
+POST를 통해서 To-Do 데이터 추가하기.  
+```
+  const addTodo = async (todo) => {
+    error.value = '';
+    //데이터베이스 todo를 저장한다.
+    try {
+    //post request요청 => response응답
+    const res = await axios.post('http://localhost:3000/todos', {
+      subject: todo.subject,
+      completed: todo.completed
+    });
+      todos.value.push(res.data);
+    } catch(err) {
+      console.log('>>> error : ' + JSON.stringify(err.data))
+      error.value = '어떤 에러가 발생했습니다.';
+    }
+  };
+```
+
+PACH를 통해서 To-Do 데이터 업데이트하기.  
+```
+  const toggleTodo = async (index) => {
+    error.value = '';
+    const id = todos.value[index].id;
+
+    try {
+      const res = await axios.patch('http://localhost:3000/todos/' + id, {
+        completed: !todos.value[index].completed
+      });
+
+      console.log('>>> res : ', JSON.stringify(res));
+      todos.value[index].completed = !todos.value[index].completed;
+    } catch(err) {
+      console.log('>>> error : ' + JSON.stringify(err));
+    }
+  };
+```
+
+DELETE를 통해서 To-Do 데이터 삭제하기.  
+```
+    const deleteTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+
+      try {
+        const res = await axios.delete('http://localhost:3000/todos/' + id);
+        
+        console.log('>>> res : ' + JSON.stringify(res))
+        todos.value.splice(index, 1);
+      } catch(err) {
+          console.log('>>> error : ' + JSON.stringify(err.data))
+          error.value = '어떤 에러가 발생했습니다.';
+      }
+    }
+```

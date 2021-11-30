@@ -20,6 +20,35 @@
       :todos="filteredTodos" 
       @toggle-todo='toggleTodo' 
       @toggle-delete='deleteTodo'/>
+    <hr />
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li 
+          v-if="currentPage !== 1"
+          class="page-item">
+          <a style="cursor: pointer" class="page-link" @click="getTodos(currentPage -1)">
+            Previous
+          </a>
+        </li>
+
+        <li 
+          v-for="page in numberOfPages"
+          :key="page"
+          class="page-item"
+          :class="currentPage === page ? 'active' : ''"
+          >
+          <a 
+            v-if="numberOfPages !== currentPage"
+            class="page-link" @click="getTodos(page)">
+            {{ page }}
+          </a>
+        </li>
+
+        <li class="page-item">
+          <a style="cursor: pointer" class="page-link" @click="getTodos(currentPage +1)">Next</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -38,19 +67,28 @@ export default {
   setup() {
     const todos = ref([]);
     const error = ref('');
+    const numberOfTodos = ref(0);
+    const limit = 5;
+    const currentPage = ref(1);
+
+    const numberOfPages = computed(() => {
+      return Math.ceil(numberOfTodos.value/limit);
+    })
 
     /* const todoStyle = {
       textDecoration: "line-through",
       color: "gray",
     }; */
 
-    const getTodos = async () => {
+    const getTodos = async (page = currentPage.value) => {
+      currentPage.value = page;
       try {
-        const res = await axios.get('http://localhost:3000/todos')
-        // todos.value.push(res.data);
+        const res = await axios.get(`http://localhost:3000/todos?_page=${page}&_limit=${limit}`);
+
+        numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
       } catch (err) {
-        console.log(err)
+        console.log('>>> erro : ' + err)
         error.value = '어떤 에러가 발생했습니다.';
       }
     };
@@ -68,17 +106,40 @@ export default {
       });
         todos.value.push(res.data);
       } catch(err) {
-        console.log('실패, ERROR : ' + JSON.stringify(err.data))
+        console.log('>>> error : ' + JSON.stringify(err.data))
         error.value = '어떤 에러가 발생했습니다.';
       }
     };
 
-    const toggleTodo = (index) => {
-      todos.value[index].completed = !todos.value[index].completed;
+    const toggleTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+
+      try {
+        const res = await axios.patch('http://localhost:3000/todos/' + id, {
+          completed: !todos.value[index].completed
+        });
+
+        console.log('>>> res : ', JSON.stringify(res));
+        todos.value[index].completed = !todos.value[index].completed;
+      } catch(err) {
+        console.log('>>> error : ' + JSON.stringify(err));
+      }
     };
 
-    const deleteTodo = (index) => {
-      todos.value.splice(index, 1);
+    const deleteTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+
+      try {
+        const res = await axios.delete('http://localhost:3000/todos/' + id);
+        
+        console.log('>>> res : ' + JSON.stringify(res))
+        todos.value.splice(index, 1);
+      } catch(err) {
+          console.log('>>> error : ' + JSON.stringify(err.data))
+          error.value = '어떤 에러가 발생했습니다.';
+      }
     }
 
     const searchText = ref('');
@@ -100,7 +161,10 @@ export default {
       TodoList,
       searchText,
       filteredTodos,
-      error
+      error,
+      numberOfPages,
+      currentPage,
+      getTodos
     };
   },
 };
