@@ -1,53 +1,31 @@
 <template>
   <div class="container">
     <h2>To-Do List</h2>
-    <TodoSimpleForm 
-      @add-todo="addTodo"
-    />
+    <TodoSimpleForm @add-todo="addTodo"/>
 
     <div v-if="!todos.length">추가된 To-Do가 없습니다.</div>
-    <div v-for="(todo, index) in todos" :key="todo.id" class="card mt-2">
-      <div class="card-body p-2 d-flex align-items-center">
-        <div class="form-check flex-grow-1">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            v-model="todo.completed"
-          />
-          <!-- <label 
-            class="form-check-label"
-            :style="todo.completed ? todoStyle : {}"
-          > -->
-          <label class="form-check-label" :class="{ todo: todo.completed }">
-            {{ todo.subject }}
-          </label>
-        </div>
-        <div>
-          <button class="btn btn-danger btn-sm" @click="deleteTodo(index)">
-            삭제
-          </button>
-        </div>
-      </div>
-    </div>
+    <TodoList :todos="todos" />
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import TodoSimpleForm from "./components/TodoSimpleForm.vue";
+import { ref } from 'vue';
+import TodoSimpleForm from './components/TodoSimpleForm.vue';
+import TodoList from './components/TodoList.vue';
 
 export default {
   components: {
     //component가 아닌 components,,, s 붙이셈..
     TodoSimpleForm,
+    TodoList
   },
   setup() {
     const todos = ref([]);
 
-    const todoStyle = {
+    /* const todoStyle = {
       textDecoration: "line-through",
       color: "gray",
-    };
+    }; */
 
     const addTodo = (todo) => {
       //console.log(todo)
@@ -59,14 +37,12 @@ export default {
       //console.log(todos.value)
     };
 
-    /* A[0] B[1]
-delete => 1 */
-
     return {
       todos,
-      todoStyle,
+      //todoStyle,
       deleteTodo,
-      addTodo
+      addTodo,
+      TodoList
     };
   },
 };

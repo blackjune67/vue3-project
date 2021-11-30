@@ -217,22 +217,21 @@ export default {
 ```
 ### 7. To-Do List 만들기
 
->form 태그 특성
-
+>form 태그 특성  
+➡  [vue3 onSubmit Document](https://v3.vuejs.org/guide/template-syntax.html#dynamic-arguments)  
+  
 `<form></form>` 태그는 submit하게 되면 화면을 리로딩(r)하게 된다 html form 태그의 특징.  
 `e.preventDefault();` 를 사용해서 화면 리로딩을 막는다.  
 vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과를 볼 수 있다.  
-➡  [vue3 onSubmit Document](https://v3.vuejs.org/guide/template-syntax.html#dynamic-arguments)
-
->v-for
 
 
+>v-for  
+➡  [vue2 v-for document](https://kr.vuejs.org/v2/guide/list.html)  
+  
 자바스크립트의 for...in과 비슷하다.  
 `todo in todos` 에서 **todo**는 별칭으로 개발자가 임의의 alias로 지정이 가능하다.   
 다만 v-for를 하게 되면 :key 값을 바인딩해줘야한다. (v-for에 key를 추가하는 것이 좋다고 한다.)  
-
-➡  [vue2 v-for document](https://kr.vuejs.org/v2/guide/list.html)
-
+  
 ```
   <div
     v-for="todo in todos"
@@ -240,7 +239,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
     class="card mt-2">
 ```
 
->v-show vs v-if
+>v-show vs v-if  
 
 * v-if
 ```
@@ -249,7 +248,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 <button @click="onToggle">toggle</button>
 ```
 
-* v-for
+* v-show
 ```
 <div v-show="toggle">true</div>
 <div v-show="!toggle">false</div>
@@ -263,7 +262,8 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 😫 v-if와 v-for함께 사용하는 것은 권장되지 않습니다 . 자세한 내용은 스타일 가이드 를 참조 하세요.  
 ➡  [vue3 v-if, v-show document](https://v3.vuejs.org/guide/conditional.html#v-show)
   
-> style binding
+> style binding  
+➡  [vue3 Class and Style Bindings document](https://v3.vuejs.org/guide/class-and-style.html#binding-html-classes)  
 
 스타일을 바인딩하는 방법에는 여러가지가 있지만 여기서는 ***object바인딩***과 ***class바인딩***을 실습해본다.
 
@@ -282,16 +282,16 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
   :class="{ todo: todo.completed }"
 >
 ```
-➡  [vue3 Class and Style Bindings document](https://v3.vuejs.org/guide/class-and-style.html#binding-html-classes)  
+
    
 > v-for index
+➡  [vue3 v-for index document](https://v3.vuejs.org/guide/list.html#mapping-an-array-to-elements-with-v-for)  
+
 v-for문에는 index를 지정해서 사용이 가능하다.
 
 ```
 <div v-for="(todo, index) in todos" :key="todo.id" class="card mt-2">
 ```
-  
-➡  [vue3 v-for index document](https://v3.vuejs.org/guide/list.html#mapping-an-array-to-elements-with-v-for)
 
 > emit  
 
@@ -329,7 +329,7 @@ setup(props, { attrs, slots, emit }) {
 
 ```
 기존 소스.
-  **setup(props, context)** {
+  setup(props, context) { //context를 이용했다. [1]
     const todo = ref("");
     const hasError = ref(false);
 
@@ -337,7 +337,7 @@ setup(props, { attrs, slots, emit }) {
       if (todo.value === "") {
         hasError.value = true;
       } else {
-        **context.emit**("add-todo", {
+        context.emit("add-todo", { //context를 이용했다. [2]
           id: Date.now(),
           subject: todo.value,
           completed: false, //완료 여부
@@ -358,7 +358,7 @@ setup(props, { attrs, slots, emit }) {
 
 ```
 구조 분해 할당을 이용한 방법
-  **setup(props, emit)** {
+  setup(props, { emit }) { //ES6 구조분해할당을 통해서 emit 프로퍼티만 뽑아서 사용한다. [1]
     const todo = ref("");
     const hasError = ref(false);
 
@@ -366,7 +366,7 @@ setup(props, { attrs, slots, emit }) {
       if (todo.value === "") {
         hasError.value = true;
       } else {
-        **emit**("add-todo", {
+        emit("add-todo", { //코드의 간략화.
           id: Date.now(),
           subject: todo.value,
           completed: false, //완료 여부
@@ -384,3 +384,97 @@ setup(props, { attrs, slots, emit }) {
     };
   },
 ```
+
+**자식 컴포넌트에서 부모컴포넌트로 올려주는 방법.**
+
+1. 자식 컴포넌트에서 emit프로퍼티를 선언 후 첫번째로 이름을 넣고 두번째로는 오브젝트의 프로퍼티를 작성해서 넣으면 된다.  
+```
+자식 컴포넌트  
+  ...
+  emit("add-todo", {
+    id: Date.now(),
+    subject: todo.value,
+    completed: false, //완료 여부
+  }); //이벤트 이름을 전달.
+```
+
+2. 부무 컴포넌트에서 자식 컴포넌트를 import하고 부모 컴포넌트에서 컴포넌트를 등록한다.  
+```
+<tamplate>
+  <TodoSimpleForm 
+    @add-todo="addTodo" <!-- 자식컴포넌트에서 보낸 emit프로퍼티, 키값 -->
+  />
+<tamplate>
+
+<script>
+import { ref } from "vue";
+import TodoSimpleForm from "./components/TodoSimpleForm.vue";
+
+export default {
+  components: {
+    TodoSimpleForm, //import된 컴포넌트를 등록.
+  },
+  setup() {
+    const todos = ref([]); //배열을 선언.
+
+    const addTodo = (todo) => { //
+      todos.value.push(todo); //array에 넣는다.
+    };
+
+    return {
+      todos,
+      addTodo
+    };
+  },
+};
+</script>
+```
+  
+> props
+➡  [vue3 props Documents](https://v3.vuejs-korea.org/guide/component-props.html#prop-%E1%84%90%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8)
+
+
+자식컴포넌트에서 props로 데이터를 받을 때 [] 배열로도 가능하며, {} 오브젝트로도 가능하다.  
+
+
+부모컴포넌트에서 todos를 Array로 보내고 있다.  
+```
+const todos = ref([]); //배열 형태.
+```
+
+배열 형식.  
+```
+export default {
+    props: ['todos'], //배열 형식.
+    setup() {
+
+
+        return {
+
+        }
+    }
+}
+```
+
+오브젝트 형식.  
+```
+export default {
+    props: { //오브젝트 형식.
+        todos: {
+            type: Array, //받는 타입을 Array로 지정해야한다.
+            required: true
+        }
+    },
+    setup() {
+
+
+        return {
+
+        }
+    }
+}
+```
+
+보내는 쪽과 받는 쪽의 type이 다를 경우 아래와 같이 warning message가 출력된다.  
+
+***runtime-core.esm-bundler.js?5c40:6591 [Vue warn]: Invalid prop: type check failed for prop "todos". Expected String with value "", got Array***  
