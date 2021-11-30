@@ -50,7 +50,7 @@ export default {
     };
 
     const addTodo = (todo) => {
-      console.log(todo)
+      //console.log(todo)
       todos.value.push(todo);
     };
 

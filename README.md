@@ -292,3 +292,95 @@ v-for문에는 index를 지정해서 사용이 가능하다.
 ```
   
 ➡  [vue3 v-for index document](https://v3.vuejs.org/guide/list.html#mapping-an-array-to-elements-with-v-for)
+
+> emit  
+
+***자식 컴포넌트***에 있는 이벤트로직을 ***부모 컴포넌트***에서 사용 가능하게 하는 방법. (자식 ➡ 부모 데이터 이동)  
+
+emit을 하기 전에 먼저 ***Composition API***에는 ***Setup()*** 이라는 것이 있다.  
+setup 펑션에는 2가지 전달인자를 가진다.  
+1. proops  
+2. context  
+  
+context는 3가지 컴포넌트 프로퍼티를 갖는 일반 JavaScript 객체이다.  
+context 객체는 일반적인 JavaScript 객체라서 ***반응성***이 존재하지 않는다.  
+(여기서 반응성은 props에서 내용을 이어가겠다.)  
+
+***context  
+  └ attr  
+  └ slots  
+  └ emit***
+
+예제에서는 context를 인자로 바로 사용했으나, [vue3문서](https://v3.vuejs-korea.org/guide/composition-api-setup.html#context)에서는 Es6 구조분해할당을 통해서 사용할 수 있다고 나와있다.  
+또한 이렇게 사용하게 되면 코드의 단순화와 함께 메모리 최적화의 효과도 볼 수 있다.
+
+```
+예제소스에서 사용하는 방식.  
+setup(props, context) {
+
+}
+
+아래와 같이 사용할 수 있다.  
+setup(props, { attrs, slots, emit }) {
+
+}
+```
+예제 소스를 구조분해할당을 이용해서 아래와 같이 변경이 가능하다.  
+
+```
+기존 소스.
+  **setup(props, context)** {
+    const todo = ref("");
+    const hasError = ref(false);
+
+    const onSubmit = () => {
+      if (todo.value === "") {
+        hasError.value = true;
+      } else {
+        **context.emit**("add-todo", {
+          id: Date.now(),
+          subject: todo.value,
+          completed: false, //완료 여부
+        }); //이벤트 이름을 전달.
+        
+        hasError.value = false;
+        todo.value = "";
+      }
+    };
+
+    return {
+      todo,
+      hasError,
+      onSubmit,
+    };
+  },
+```
+
+```
+구조 분해 할당을 이용한 방법
+  **setup(props, emit)** {
+    const todo = ref("");
+    const hasError = ref(false);
+
+    const onSubmit = () => {
+      if (todo.value === "") {
+        hasError.value = true;
+      } else {
+        **emit**("add-todo", {
+          id: Date.now(),
+          subject: todo.value,
+          completed: false, //완료 여부
+        }); //이벤트 이름을 전달.
+        
+        hasError.value = false;
+        todo.value = "";
+      }
+    };
+
+    return {
+      todo,
+      hasError,
+      onSubmit,
+    };
+  },
+```

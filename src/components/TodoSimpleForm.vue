@@ -22,10 +22,8 @@
 import { ref } from "vue";
 
 export default {
-    emits: ["add-todo"],
-    components: {
-    },
-  setup(props, context) {
+  components: {},
+  setup(props, { emit }) {
     const todo = ref("");
     const hasError = ref(false);
 
@@ -33,12 +31,12 @@ export default {
       if (todo.value === "") {
         hasError.value = true;
       } else {
-        context.emit("add-todo", {
+        emit("add-todo", {
           id: Date.now(),
           subject: todo.value,
           completed: false, //완료 여부
         }); //이벤트 이름을 전달.
-        
+
         hasError.value = false;
         todo.value = "";
       }
