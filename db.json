@@ -26,8 +26,8 @@
       "id": 5
     },
     {
-      "subject": "아이스크림",
-      "completed": true,
+      "subject": "최하준 퇴근하기",
+      "completed": false,
       "id": 6
     }
   ]

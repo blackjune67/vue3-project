@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-6">
         <div class="form-group">
-          <label>이름</label>
+          <label>제목</label>
           <input type="text" class="form-control" v-model="todo.subject" />
         </div>
       </div>
@@ -27,7 +27,10 @@
     </div>
 
     <br />
-    <button type="submit" class="btn btn-primary">저장</button>
+    <button type="submit" 
+      class="btn btn-primary"
+      @click="saveTodoDetail"
+    >저장</button>
     <button 
       class="btn btn-warning m-2"
       @click="moveToListPage"
@@ -47,8 +50,8 @@ export default {
     const todo = ref(null);
     const loading = ref(true);
 
-    console.log('route : ' + JSON.stringify(route));
-    console.log('router : ' + JSON.stringify(router));
+    // console.log('route : ' + JSON.stringify(route));
+    // console.log('router : ' + JSON.stringify(router));
 
     const getTodosDetail = async () => {
       const res = await axios.get(
@@ -69,12 +72,21 @@ export default {
         })
     }
 
+    const saveTodoDetail = async () => {
+       const res = axios.put('http://localhost:3000/todos/' + route.params.id, {
+         subject: todo.value.subject,
+         completed: todo.value.completed
+       })
+       console.log('==> save : ' + res);
+    }
+
     getTodosDetail();
     return {
       todo,
       loading,
       toggleTodoStatus,
       moveToListPage,
+      saveTodoDetail
     };
   },
 };
