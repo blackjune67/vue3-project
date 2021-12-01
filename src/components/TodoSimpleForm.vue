@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="onSubmit">
     <div class="d-flex">
-      <div class="flex-gorw-1 mr-2">
+      <div class="flex-grow-1 mr-2">
         <input
           class="form-control"
           type="text"

@@ -793,3 +793,87 @@ watching multiple을 하는 방법은 watching할 것을 Array로 변경하면 �
 [결론]  
 watch, watchEffect는 reactive한 값이 변경되면 그 값을 인지하고 보여준다.  
 다만 watchEffect는 처음 컴포넌트가 랜더될 때 최초에 1회 실행이 된다.  
+
+>vue router  
+
+➡  [vue router Documen](https://next.router.vuejs.org/api/#createrouter)  
+
+라우터를 사용한 index.js
+```
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../pages/index.vue';
+import Todos from '../pages/todos/index.vue';
+import Todo from '../pages/todos/';
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        //하나하나의 객체가 라우터
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        }, 
+        {
+            path: '/todos',
+            name: 'Todos',
+            component: Todos
+        }, 
+        {
+            path: '/todos/:id', //URI resource의 값을 나타낼 때, routes에서는 파라미터표시를 :을 이용한다.
+            name: 'Todo',
+            component: Todo
+        }
+    ]
+});
+
+// 1. /home 2. /todos 3. /todos/create 4. /todos/:id
+export default router;
+```
+
+페이지를 이동할 때 parameter를 바로 받아서 하는 방법과 이름으로 이동하는 방법이 있다.  
+
+index.js에 각각의 라우터 객체에는 name속성이 들어 있다.
+```
+const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+        //하나하나의 객체가 라우터
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        }, 
+        {
+            path: '/todos',
+            name: 'Todos',
+            component: Todos
+        }, 
+        {
+            path: '/todos/:id',
+            name: 'Todo',
+            component: Todo
+        }
+    ]
+});
+```
+
+1. 파라미터로 접근하는 방법.
+```
+  const moveToPage = (vTodoId) => {
+    console.log('>> ' + vTodoId);
+    //router.push('/todos/' + vTodoId);
+  }
+```
+
+2. name으로 접근하는 방법.
+```
+  const moveToPage = (vTodoId) => {
+    router.push({
+        name: 'Todo',
+        params: {
+          id: vTodoId
+        }
+    });
+  }
+```
