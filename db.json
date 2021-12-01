@@ -26,19 +26,9 @@
       "id": 5
     },
     {
-      "subject": "에스프레소",
+      "subject": "아이스크림",
       "completed": false,
       "id": 6
-    },
-    {
-      "subject": "라떼",
-      "completed": false,
-      "id": 7
-    },
-    {
-      "subject": "따뜻한 라떼",
-      "completed": false,
-      "id": 8
     }
   ]
 }
