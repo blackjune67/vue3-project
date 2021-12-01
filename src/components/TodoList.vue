@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  emits: ["toggle-todo", "toggle-delete"],
+  emits: ['toggle-todo', 'toggle-delete'],
   props: {
     todos: {
       type: Array,
@@ -37,11 +37,11 @@ export default {
   },
   setup(props, { emit }) {
     const toggleTodo = (index) => {
-      emit("toggle-todo", index);
+      emit('toggle-todo', index);
     };
 
     const deleteTodo = (index) => {
-      emit("toggle-delete", index);
+      emit('toggle-delete', index);
     };
 
     return {

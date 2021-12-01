@@ -12,14 +12,15 @@
     <TodoSimpleForm @add-todo="addTodo"/>
     <div style="color: red">{{ error }}</div>
 
-    <div v-if="!filteredTodos.length">
+    <div v-if="!todos.length">
       검색 결과가 없습니다.
     </div>
 
     <TodoList 
-      :todos="filteredTodos" 
+      :todos="todos" 
       @toggle-todo='toggleTodo' 
-      @toggle-delete='deleteTodo'/>
+      @toggle-delete='deleteTodo'
+      />
     <hr />
     <nav aria-label="Page navigation example">
       <ul class="pagination">
@@ -53,7 +54,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import TodoSimpleForm from './components/TodoSimpleForm.vue';
 import TodoList from './components/TodoList.vue';
 import axios from 'axios';
@@ -68,22 +69,18 @@ export default {
     const todos = ref([]);
     const error = ref('');
     const numberOfTodos = ref(0);
-    const limit = 5;
+    const limit = 5
     const currentPage = ref(1);
+    const searchText = ref('');
 
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value/limit);
     })
 
-    /* const todoStyle = {
-      textDecoration: "line-through",
-      color: "gray",
-    }; */
-
     const getTodos = async (page = currentPage.value) => {
       currentPage.value = page;
       try {
-        const res = await axios.get(`http://localhost:3000/todos?_page=${page}&_limit=${limit}`);
+        const res = await axios.get(`http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`);
 
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
@@ -100,11 +97,12 @@ export default {
       //데이터베이스 todo를 저장한다.
       try {
       //post request요청 => response응답
-      const res = await axios.post('http://localhost:3000/todos', {
+      await axios.post('http://localhost:3000/todos', {
         subject: todo.subject,
         completed: todo.completed
       });
-        todos.value.push(res.data);
+
+        getTodos(1);
       } catch(err) {
         console.log('>>> error : ' + JSON.stringify(err.data))
         error.value = '어떤 에러가 발생했습니다.';
@@ -120,10 +118,10 @@ export default {
           completed: !todos.value[index].completed
         });
 
-        console.log('>>> res : ', JSON.stringify(res));
+        console.log('>>> toggleTodo res : ', JSON.stringify(res));
         todos.value[index].completed = !todos.value[index].completed;
       } catch(err) {
-        console.log('>>> error : ' + JSON.stringify(err));
+        console.log('>>> toggleTodo error : ' + JSON.stringify(err));
       }
     };
 
@@ -134,24 +132,28 @@ export default {
       try {
         const res = await axios.delete('http://localhost:3000/todos/' + id);
         
-        console.log('>>> res : ' + JSON.stringify(res))
-        todos.value.splice(index, 1);
+        console.log('>>> deleteTodo res : ' + JSON.stringify(res))
+        getTodos(1);
+        //todos.value.splice(index, 1);
       } catch(err) {
-          console.log('>>> error : ' + JSON.stringify(err.data))
+          console.log('>>> deleteTodo error : ' + JSON.stringify(err.data))
           error.value = '어떤 에러가 발생했습니다.';
       }
     }
+    
+    watch(searchText, () => {
+      console.log(searchText.value);
+      getTodos(1); //항상 첫번째 페이지를 보기 위해 1을 넣음.
+    })
+    // const filteredTodos = computed(() => {
+    //   if(searchText.value) {
+    //     return todos.value.filter(resultTodo => {
+    //       return resultTodo.subject.includes(searchText.value);
+    //     });
+    //   } 
 
-    const searchText = ref('');
-    const filteredTodos = computed(() => {
-      if(searchText.value) {
-        return todos.value.filter(resultTodo => {
-          return resultTodo.subject.includes(searchText.value);
-        });
-      } 
-
-      return todos.value;
-    });
+    //   return todos.value;
+    // });
 
     return {
       todos,
@@ -160,7 +162,7 @@ export default {
       addTodo,
       TodoList,
       searchText,
-      filteredTodos,
+      // filteredTodos,
       error,
       numberOfPages,
       currentPage,

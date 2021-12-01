@@ -1,184 +1,49 @@
 {
   "todos": [
     {
-      "subject": "ㅁㄴㅇㄹ",
-      "completed": true,
+      "subject": "아메리카노",
+      "completed": false,
       "id": 1
     },
     {
-      "subject": "ㅁㄴㄹㄹㄹ",
+      "subject": "따뜻한 아메리카노",
       "completed": false,
       "id": 2
     },
     {
-      "subject": "테스트1",
-      "completed": true,
+      "subject": "아이스 아메리카노",
+      "completed": false,
       "id": 3
     },
     {
-      "subject": "1",
+      "subject": "뭐라카노",
       "completed": false,
       "id": 4
     },
     {
-      "subject": "2",
+      "subject": "뿔카노",
       "completed": false,
       "id": 5
     },
     {
-      "subject": "4",
+      "subject": "에스프레소",
       "completed": false,
       "id": 6
     },
     {
-      "subject": "3",
+      "subject": "라떼",
       "completed": false,
       "id": 7
     },
     {
-      "subject": "5",
+      "subject": "따뜻한 라떼",
       "completed": false,
       "id": 8
     },
     {
-      "subject": "6",
+      "subject": "라떼는말이야",
       "completed": false,
       "id": 9
-    },
-    {
-      "subject": "7",
-      "completed": false,
-      "id": 10
-    },
-    {
-      "subject": "7",
-      "completed": false,
-      "id": 11
-    },
-    {
-      "subject": "zzz",
-      "completed": false,
-      "id": 12
-    },
-    {
-      "subject": "바보",
-      "completed": false,
-      "id": 13
-    },
-    {
-      "subject": "ㅠ",
-      "completed": false,
-      "id": 14
-    },
-    {
-      "subject": "asdasdasd",
-      "completed": false,
-      "id": 15
-    },
-    {
-      "subject": "asdasda",
-      "completed": false,
-      "id": 16
-    },
-    {
-      "subject": "asdasd",
-      "completed": false,
-      "id": 17
-    },
-    {
-      "subject": "asfafa",
-      "completed": false,
-      "id": 18
-    },
-    {
-      "subject": "asdasd",
-      "completed": false,
-      "id": 19
-    },
-    {
-      "subject": "zzz",
-      "completed": false,
-      "id": 20
-    },
-    {
-      "subject": "zzz",
-      "completed": false,
-      "id": 21
-    },
-    {
-      "subject": "zzz",
-      "completed": false,
-      "id": 22
-    },
-    {
-      "subject": "asd",
-      "completed": false,
-      "id": 23
-    },
-    {
-      "subject": "asd",
-      "completed": false,
-      "id": 24
-    },
-    {
-      "subject": "asd",
-      "completed": false,
-      "id": 25
-    },
-    {
-      "subject": "af",
-      "completed": false,
-      "id": 26
-    },
-    {
-      "subject": "ㅁㄴㅇ",
-      "completed": false,
-      "id": 27
-    },
-    {
-      "subject": "ㅁㄹ",
-      "completed": false,
-      "id": 28
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 29
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 30
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 31
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 32
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 33
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 34
-    },
-    {
-      "subject": "ㄹ",
-      "completed": false,
-      "id": 35
-    },
-    {
-      "subject": "ㅁㄴㅇ",
-      "completed": false,
-      "id": 36
     }
   ]
 }

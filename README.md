@@ -711,4 +711,85 @@ DELETE를 통해서 To-Do 데이터 삭제하기.
           error.value = '어떤 에러가 발생했습니다.';
       }
     }
+```  
+> watchEffect, watch  
+
+➡  [vue3 watchEffect, watch Document](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watch)
+
+watchEffect는 처음 컴포넌트가 랜더될 때 최초 1회 실행됩니다.  
+그 이후 watchEffect 내부에 있는 변수가 바뀔 때마다 재실행됩니다.  
+
+  
+부모에 선언된 ref는 ***reactive***한 객체 및 원시타입(primitive)값을 포함한 여러 타입의 값을 받을 수 있다.  
+그래서 watchEffect는 이 reactivity한 값을 받아서 watchEffect에 console.log()에 찍힐 수 있는 것이다.
+부모 컴포넌트(App.vue)
 ```
+const todos = ref([]);
+```  
+
+자식 컴포넌트(TodoList.vue)  
+```
+  setup(props, { emit }) {
+    watchEffect(() => {
+      console.log(props.todos.length)
+  })
+```
+
+reactive를 사용한 것도 위와 동일하게 반응성있는 값에 대한 변화를 볼 수 있다.
+```
+  const a = reactive({
+    b : 1
+  });
+
+  watchEffect(() => {
+    console.log(a.b);
+  })
+
+  a.b = 4;
+```
+
+반면에 limit은 reactivity한 값이 아니라서 최초에 한번 실행된 5가 노출될 뿐 값이 3으로 바뀌지는 않는다.
+```
+  let limit = 5
+
+  watchEffect(() => {
+    console.log('>>>>>>>>> ' + limit);
+  })
+
+  limit = 3;
+```
+
+reactive를 사용했을 때 b의 값을 watch를 하고 있는데, 이때 a의 값을 100으로 변경했기 때문에 console.log에 100과 prev의 값이 찍히는 것.
+```
+  const currentPage = ref(1);
+
+  const a = reactive({
+    b: 1
+  });
+
+  watch(() => a.b, (currentPage, prev) => {
+    console.log(currentPage, prev);
+  })
+
+  a.b = 100;
+```
+
+watching multiple을 하는 방법은 watching할 것을 Array로 변경하면 된다.
+```
+  const currentPage = ref(1);
+
+  const a = reactive({
+    b: 1
+    c: 2
+  });
+
+  watch(() => [a.b, a.c], (currentPage, prev) => {
+    console.log(currentPage, prev);
+  })
+
+  a.b = 100;
+```
+
+[결론]  
+watch, watchEffect는 reactive한 값이 변경되면 그 값을 인지하고 보여준다.  
+다만 watchEffect는 처음 컴포넌트가 랜더될 때 최초에 1회 실행이 된다.  
