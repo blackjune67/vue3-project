@@ -1,6 +1,4 @@
 <template>
-<router-view/>
-  <div class="container">
     <h2>To-Do List</h2>
     <input
       class="form-control"
@@ -59,7 +57,6 @@
         </li>
       </ul>
     </nav>
-  </div>
 </template>
 
 <script>
@@ -96,7 +93,7 @@ export default {
         numberOfTodos.value = res.headers['x-total-count'];
         todos.value = res.data;
       } catch (err) {
-        console.log('>>> erro : ' + err);
+        console.log('>>> error : ' + err);
         error.value = '어떤 에러가 발생했습니다.';
       }
     };
@@ -120,17 +117,19 @@ export default {
       }
     };
 
-    const toggleTodo = async (index) => {
+    const toggleTodo = async (index, checked) => {
       error.value = '';
       const id = todos.value[index].id;
 
       try {
-        const res = await axios.patch('http://localhost:3000/todos/' + id, {
-          completed: !todos.value[index].completed,
+        await axios.patch('http://localhost:3000/todos/' + id, {
+          // completed: !todos.value[index].completed,
+          completed: checked
         });
 
-        console.log('>>> toggleTodo res : ', JSON.stringify(res));
-        todos.value[index].completed = !todos.value[index].completed;
+        //console.log('>>> toggleTodo res : ', JSON.stringify(res));
+        // todos.value[index].completed = !todos.value[index].completed;
+        todos.value[index].completed = checked
       } catch (err) {
         console.log('>>> toggleTodo error : ' + JSON.stringify(err));
       }
@@ -141,9 +140,8 @@ export default {
       const id = todos.value[index].id;
 
       try {
-        const res = await axios.delete('http://localhost:3000/todos/' + id);
-
-        console.log('>>> deleteTodo res : ' + JSON.stringify(res));
+        await axios.delete('http://localhost:3000/todos/' + id);
+        // console.log('>>> deleteTodo res : ' + JSON.stringify(res));
         getTodos(1);
         //todos.value.splice(index, 1);
       } catch (err) {
@@ -162,7 +160,7 @@ export default {
       clearTimeout(timeout);
 
       timeout = setTimeout(() => {
-        console.log(searchText.value);
+        // console.log(searchText.value);
         getTodos(1); //항상 첫번째 페이지를 보기 위해 1을 넣음.
       }, 1000);
     });

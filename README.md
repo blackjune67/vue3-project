@@ -712,8 +712,7 @@ DELETE를 통해서 To-Do 데이터 삭제하기.
       }
     }
 ```  
-> watchEffect, watch  
-
+### 12. watchEffect, watch  
 ➡  [vue3 watchEffect, watch Document](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watch)
 
 watchEffect는 처음 컴포넌트가 랜더될 때 최초 1회 실행됩니다.  
@@ -794,9 +793,10 @@ watching multiple을 하는 방법은 watching할 것을 Array로 변경하면 �
 watch, watchEffect는 reactive한 값이 변경되면 그 값을 인지하고 보여준다.  
 다만 watchEffect는 처음 컴포넌트가 랜더될 때 최초에 1회 실행이 된다.  
 
->vue router  
+### 13. vue router  
 
 ➡  [vue router Documen](https://next.router.vuejs.org/api/#createrouter)  
+
 
 라우터를 사용한 index.js
 ```
@@ -876,4 +876,126 @@ const router = createRouter({
         }
     });
   }
+```
+
+3. tamplate에는 router-link에 :to를 이용해서 이름으로 접근할 수 있다.
+```
+<li class="nav-item">
+    <router-link
+      class="nav-link active"
+      aria-current="page"
+      :to="{ name: 'Todos' }"
+      >Todos</router-link
+    >
+  </li>
+```  
+
+useRoute, useRouter  
+useRoute : 현재 경로 위치를 반환하는 것.
+useRouter : 라우터 인스턴스를 반환하는 것.
+```
+/**
+ * Returns the current route location. Equivalent to using `$route` inside
+ * templates.
+ */
+export declare function useRoute(): RouteLocationNormalizedLoaded;
+
+/**
+ * Returns the router instance. Equivalent to using `$router` inside
+ * templates.
+ */
+export declare function useRouter(): Router;
+```
+
+무슨 말일까?? 콘솔로 찍어본다.
+```
+const route = useRoute();
+  const router = useRouter();
+  const todo = ref(null);
+
+  console.log('route : ' + JSON.stringify(route));
+  console.log('router : ' + JSON.stringify(router));
+```
+
+콘솔 결과
+```
+route : {
+  "path":"/todos/4","name":"Todo","params":{"id":"4"},"query":{},"hash":"","fullPath":"/todos/4","matched":[{"path":"/todos/:id","name":"Todo","meta":{},"props":{"default":false},"children":[],"instances":{"default":null},"leaveGuards":{},"updateGuards":{},"enterCallbacks":{},"components":{"default":{"__file":"src/pages/todos/_id.vue","__hmrId":"713b03c4"}}}],"meta":{}
+  }
+
+router : {
+  "currentRoute":{"_shallow":true,"dep":{"w":0,"n":0},"__v_isRef":true,"_rawValue":{"fullPath":"/todos/4","path":"/todos/4","query":{},"hash":"","name":"Todo","params":{"id":"4"},"matched":[{"path":"/todos/:id","name":"Todo","meta":{},"props":{"default":false},"children":[],"instances":{"default":null},"leaveGuards":{},"updateGuards":{},"enterCallbacks":{},"components":{"default":{"__file":"src/pages/todos/_id.vue","__hmrId":"713b03c4"}}}],"meta":{},"href":"/todos/4"},"_value":{"fullPath":"/todos/4","path":"/todos/4","query":{},"hash":"","name":"Todo","params":{"id":"4"},"matched":[{"path":"/todos/:id","name":"Todo","meta":{},"props":{"default":false},"children":[],"instances":{"default":null},"leaveGuards":{},"updateGuards":{},"enterCallbacks":{},"components":{"default":{"__file":"src/pages/todos/_id.vue","__hmrId":"713b03c4"}}}],"meta":{},"href":"/todos/4"}},"options":{"history":{"location":"/todos/4","base":"","state":{"back":null,"current":"/todos/4","forward":null,"position":49,"replaced":true,"scroll":null}},"routes":[{"path":"/","name":"home","component":{"__file":"src/pages/index.vue","__hmrId":"57509004"}},{"path":"/todos","name":"Todos","component":{"components":{"TodoSimpleForm":{"emmit":["add-todo"],"__file":"src/components/TodoSimpleForm.vue","__hmrId":"9d72c2a8"},"TodoList":{"emits":["toggle-todo","toggle-delete"],"props":{"todos":{"required":true}},"__file":"src/components/TodoList.vue","__hmrId":"3de47834"}},"__file":"src/pages/todos/index.vue","__hmrId":"3e721a5c"}},{"path":"/todos/:id","name":"Todo","component":{"__file":"src/pages/todos/_id.vue","__hmrId":"713b03c4"}}]},"__hasDevtools":true
+  }
+```
+
+[결론]  
+route는 현재 클라이언트가 바라보고 있는 URI를 의미한다. 그래서 route.params.id를 해서 게시판의 id를 물고 들어올 수 있다.
+```
+  const getTodosDetail = async () => {
+    const res = await axios.get(
+      `http://localhost:3000/todos/` + route.params.id
+    );
+    todo.value = res.data;
+    loading.value = false;
+  };
+```
+
+useRouter를 까보면 Router를 상속 받고 있고, useRoute는 RouteLocationNormalizedLoaded에 _RouteLocationBase라는 위치참조하는 객체를 상속하고만 있다.  
+어쨌든 useRouter는 useRoute랑 비슷하지만 조금 더 넓은 의미를 갖고 있다.  
+
+
+
+
+### 14. 이벤트 버블링  
+
+특정 화면 요소에서 이벤트가 발생했을 때 해당 이벤트가 더 상위의 화면 요소들로 전달되어 가는 특성을 의미한다.  
+이 부분은 vue js의 특성이라기 보다는 Vanilla JS의 특징이다.  
+➡ [이벤트 버블링 사진](https://joshua1988.github.io/images/posts/web/javascript/event/event-bubble.png)  
+
+
+Vanilla JS
+```
+function stopBubble(event) {
+  event.stopPropagation()
+}
+```
+
+Vue JS
+```
+<button class="btn btn-danger btn-sm" @click.stop="deleteTodo(index)">
+          삭제
+</button>
+```
+
+이렇게 @change.stop을 하게 되면 먹히지 않는다.
+```
+<input
+  class="form-check-input"
+  type="checkbox"
+  :checked="vTodo.completed"
+  @change.stop="toggleTodo(index)"
+/>
+```
+
+때에 따라서 @click.stop을 줘서 막는 경우도 있다.
+```
+<input
+  class="form-check-input"
+  type="checkbox"
+  :checked="vTodo.completed"
+  @change="toggleTodo(index)"
+  @click.stop
+/>
+```
+
+@change vs @click  
+@change는 값이 변하는 걸 감지한  이후에 실행되고, @click은 바로 함수가 실행되는 것이라서
+위 처럼 하지 않고 아래와 같이 @click 이벤트로 변경해도 된다.
+```
+<input
+  class="form-check-input"
+  type="checkbox"
+  :checked="vTodo.completed"
+  @click.stop="toggleTodo(index)"
+/>
 ```

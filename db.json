@@ -22,12 +22,12 @@
     },
     {
       "subject": "뿔카노",
-      "completed": false,
+      "completed": true,
       "id": 5
     },
     {
       "subject": "아이스크림",
-      "completed": false,
+      "completed": true,
       "id": 6
     }
   ]
