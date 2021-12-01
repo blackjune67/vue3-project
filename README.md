@@ -928,7 +928,7 @@ router : {
   }
 ```
 
-[결론]  
+**[결론]**  
 route는 현재 클라이언트가 바라보고 있는 URI를 의미한다. 그래서 route.params.id를 해서 게시판의 id를 물고 들어올 수 있다.
 ```
   const getTodosDetail = async () => {
@@ -998,4 +998,51 @@ Vue JS
   :checked="vTodo.completed"
   @click.stop="toggleTodo(index)"
 />
+```
+
+
+### 15. 클릭 저장하기  
+
+subject 내용과 상태(완료, 미완료)값을 변경 후 저장하는 로직
+
+```
+<input type="text" class="form-control" v-model="todo.subject" />
+  ...
+<button
+              class="btn"
+              type="button"
+              :class="todo.completed ? 'btn-success' : 'btn-danger'"
+              @click='toggleTodoStatus'
+            >
+              {{ todo.completed ? '완료' : '미완료' }}
+            </button>
+```
+
+이렇게해서 넣어줬음.
+```
+    const saveTodoDetail = async () => {
+       const res = axios.put('http://localhost:3000/todos/' + route.params.id, {
+         subject: todo.value.subject,
+         completed: todo.value.completed
+       })
+       console.log('==> save : ' + res);
+    }
+```
+
+예제에서 한 방법.
+```
+<form v-else @submit.prevent="onSave">
+```
+
+```
+const toDoId = route.params.id;
+    ...
+const onSave = async () => {
+  const res = axios.put(`http://localhost:3000/todos/${toDoId}`, {
+    subject: todo.value.subject,
+    completed: todo.value.completed,
+  });
+
+  console.log('==> save : ' + JSON.stringify(res));
+};
 ```

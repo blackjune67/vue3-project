@@ -1,7 +1,7 @@
 <template>
   <h1>To-Do Page</h1>
   <div v-if="loading">로딩중..</div>
-  <form v-else>
+  <form v-else @submit.prevent="onSave">
     <div class="row">
       <div class="col-6">
         <div class="form-group">
@@ -17,7 +17,7 @@
               class="btn"
               type="button"
               :class="todo.completed ? 'btn-success' : 'btn-danger'"
-              @click='toggleTodoStatus'
+              @click="toggleTodoStatus"
             >
               {{ todo.completed ? '완료' : '미완료' }}
             </button>
@@ -27,14 +27,10 @@
     </div>
 
     <br />
-    <button type="submit" 
-      class="btn btn-primary"
-      @click="saveTodoDetail"
-    >저장</button>
-    <button 
-      class="btn btn-warning m-2"
-      @click="moveToListPage"
-    >취소</button>
+    <button type="submit" class="btn btn-primary" @click="saveTodoDetail">
+      저장
+    </button>
+    <button class="btn btn-warning m-2" @click="moveToListPage">취소</button>
   </form>
 </template>
 
@@ -49,13 +45,15 @@ export default {
     const router = useRouter();
     const todo = ref(null);
     const loading = ref(true);
+    const toDoId = route.params.id;
 
     // console.log('route : ' + JSON.stringify(route));
     // console.log('router : ' + JSON.stringify(router));
 
     const getTodosDetail = async () => {
       const res = await axios.get(
-        `http://localhost:3000/todos/` + route.params.id
+        // `http://localhost:3000/todos/` + route.params.id
+        `http://localhost:3000/todos/${toDoId}`
       );
       todo.value = res.data;
       loading.value = false;
@@ -67,18 +65,27 @@ export default {
     };
 
     const moveToListPage = () => {
-        router.push({
-          name: 'Todos'
-        })
-    }
+      router.push({
+        name: 'Todos',
+      });
+    };
 
-    const saveTodoDetail = async () => {
+    /* const saveTodoDetail = async () => {
        const res = axios.put('http://localhost:3000/todos/' + route.params.id, {
          subject: todo.value.subject,
          completed: todo.value.completed
        })
        console.log('==> save : ' + res);
-    }
+    } */
+
+    const onSave = async () => {
+      const res = axios.put(`http://localhost:3000/todos/${toDoId}`, {
+        subject: todo.value.subject,
+        completed: todo.value.completed,
+      });
+
+      console.log('==> save : ' + JSON.stringify(res));
+    };
 
     getTodosDetail();
     return {
@@ -86,7 +93,8 @@ export default {
       loading,
       toggleTodoStatus,
       moveToListPage,
-      saveTodoDetail
+      // saveTodoDetail
+      onSave
     };
   },
 };
