@@ -22,11 +22,11 @@
     },
     {
       "subject": "뿔카노",
-      "completed": true,
+      "completed": false,
       "id": 5
     },
     {
-      "subject": "최하준 퇴근하기",
+      "subject": "최하준 퇴근하기_11",
       "completed": false,
       "id": 6
     }

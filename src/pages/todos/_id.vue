@@ -27,7 +27,11 @@
     </div>
 
     <br />
-    <button type="submit" class="btn btn-primary" @click="saveTodoDetail">
+    <button 
+      type="submit"
+      class="btn btn-primary"
+      :disabled="!todoUpdated"
+      > <!-- : 바인딩을 넣어주지 않으면 값이 String으로 넣어짐. -->
       저장
     </button>
     <button class="btn btn-warning m-2" @click="moveToListPage">취소</button>
@@ -37,13 +41,15 @@
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import _ from 'lodash';
 
 export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
     const todo = ref(null);
+    const originalTodo = ref(null);
     const loading = ref(true);
     const toDoId = route.params.id;
 
@@ -55,9 +61,17 @@ export default {
         // `http://localhost:3000/todos/` + route.params.id
         `http://localhost:3000/todos/${toDoId}`
       );
-      todo.value = res.data;
+
+      todo.value = { ...res.data }; //전개 연산자를 사용해서 깊은 복사를 함.
+      originalTodo.value = { ...res.data };
+
       loading.value = false;
     };
+
+    const todoUpdated = computed(() => {
+      console.log('todoUpdated');
+      return !_.isEqual(todo.value, originalTodo.value);
+    });
 
     const toggleTodoStatus = () => {
       // console.log('>>>>>>>>  '  + todo.value.completed);
@@ -79,11 +93,12 @@ export default {
     } */
 
     const onSave = async () => {
-      const res = axios.put(`http://localhost:3000/todos/${toDoId}`, {
+      const res = await axios.put(`http://localhost:3000/todos/${toDoId}`, {
         subject: todo.value.subject,
         completed: todo.value.completed,
       });
 
+      originalTodo.value = { ...res.data};
       console.log('==> save : ' + JSON.stringify(res));
     };
 
@@ -94,7 +109,8 @@ export default {
       toggleTodoStatus,
       moveToListPage,
       // saveTodoDetail
-      onSave
+      onSave,
+      todoUpdated
     };
   },
 };
