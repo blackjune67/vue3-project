@@ -1047,3 +1047,54 @@ const onSave = async () => {
 };
 ```
 
+### 16. 스스로 학습해보자.  
+watch => reactivity한 값이 아니면 찍히지 않는다.  
+javascript는 Array로 보내도 .으로 프로퍼티를 바로 접근하게 되면 Object로 인식한다.
+
+부모 컴포넌트에서는 배열로 보내고 있다.
+```
+const toastMessage = reactive([ //배열로 보냄.
+  {
+    viewMessage: '',
+    idx: null,
+  },
+]);
+    ...
+
+const triggerToast = (message) => {
+    console.log('true!!! ' + isShow.value);
+
+    if (isShow.value === true) {
+      toastMessage.viewMessage = message; //값을 배열에 넣지 않았다.
+    } else {
+      console.log('failed');
+    }
+        ...
+  };
+}
+```
+
+자식 컴포넌트에서 props로 type이 Array지만 아래와 같이 콘솔로그를 찍으면 결과가 특이하게 나온다.
+```
+export default {
+  props: {
+    message: {
+      type: Array, //배열로 받고 있다.
+      required: false,
+    },
+      ...
+```
+
+**[콘솔 로그]**
+```
+console.log('>> 1 : ' + JSON.stringify(props.message));
+console.log('>> 2 : ' + JSON.stringify(props.message.viewMessage));
+```
+
+**[콘솔 결과]**
+```
+>> 1 : [{"viewMessage":"","idx":null}]
+>> 2 : "success!!"
+```
+
+v-if랑 v-for이랑 한 태그에 같이 사용은 불가한다.
