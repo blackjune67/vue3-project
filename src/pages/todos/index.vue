@@ -1,5 +1,13 @@
 <template>
-    <h2>To-Do List</h2>
+  <div>
+    <div class="d-flex justify-content-between mb-3">
+      <h2>To-Do List</h2>
+      <button 
+        class="btn btn-primary"
+        @click="moveToCreatePage"
+      >Create Todo</button>
+    </div>
+
     <input
       class="form-control"
       type="text"
@@ -9,7 +17,7 @@
     />
     <hr />
 
-    <TodoSimpleForm @add-todo="addTodo" />
+    <!-- <TodoSimpleForm @add-todo="addTodo" /> -->
     <div style="color: red">{{ error }}</div>
 
     <div v-if="!todos.length">검색 결과가 없습니다.</div>
@@ -57,21 +65,28 @@
         </li>
       </ul>
     </nav>
+    <Toast v-if="showToast" :message="toastMessage" :type="toastAlertType" />
+  </div>
 </template>
 
 <script>
 import { ref, computed, watch } from 'vue';
-import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
+// import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from 'axios';
+import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
     //component가 아닌 components,,, s 붙이셈..
-    TodoSimpleForm,
+    // TodoSimpleForm,
     TodoList,
+    Toast,
   },
   setup() {
+    const router = useRouter();
     const todos = ref([]);
     const error = ref('');
     const numberOfTodos = ref(0);
@@ -79,9 +94,35 @@ export default {
     const currentPage = ref(1);
     const searchText = ref('');
 
-    const numberOfPages = computed(() => {
-      return Math.ceil(numberOfTodos.value / limit);
-    });
+    const { toastAlertType, showToast, toastMessage, triggerToast } =
+      useToast();
+
+    /*     
+const toasTimeout = ref(null);
+  const toastMessage = reactive([
+      //배열로 보냄.
+      {
+        viewMessage: '',
+        idx: null,
+      },
+    ]);
+    const toastAlertType = ref('');
+    const showToast = ref(false);
+    const triggerToast = (message, type = 'success') => {
+      toastMessage[0].viewMessage = message;
+      toastAlertType.value = type;
+      //toastMessage[0].idx = idx;
+      // console.log('>> ' + JSON.stringify(toastMessage));
+      // isShow.value = true;
+
+      showToast.value = true;
+      toasTimeout.value = setTimeout(() => {
+        console.log('setTimeout!!');
+        toastMessage[0].value = '';
+        toastAlertType.value = '';
+        showToast.value = false;
+      }, 3000);
+    }; */
 
     const getTodos = async (page = currentPage.value) => {
       currentPage.value = page;
@@ -104,6 +145,7 @@ export default {
       error.value = '';
       //데이터베이스 todo를 저장한다.
       try {
+        console.log('==> addTodo : ' + todo);
         //post request요청 => response응답
         await axios.post('http://localhost:3000/todos', {
           subject: todo.subject,
@@ -112,8 +154,8 @@ export default {
 
         getTodos(1);
       } catch (err) {
-        console.log('>>> error : ' + JSON.stringify(err.data));
         error.value = '어떤 에러가 발생했습니다.';
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
       }
     };
 
@@ -124,12 +166,12 @@ export default {
       try {
         await axios.patch('http://localhost:3000/todos/' + id, {
           // completed: !todos.value[index].completed,
-          completed: checked
+          completed: checked,
         });
 
         //console.log('>>> toggleTodo res : ', JSON.stringify(res));
         // todos.value[index].completed = !todos.value[index].completed;
-        todos.value[index].completed = checked
+        todos.value[index].completed = checked;
       } catch (err) {
         console.log('>>> toggleTodo error : ' + JSON.stringify(err));
       }
@@ -150,11 +192,17 @@ export default {
       }
     };
 
+    const moveToCreatePage = () => {
+      router.push({
+        name: 'TodoCreate'
+      }) 
+    }
+
     let timeout = null;
     const searchTodo = () => {
       clearTimeout(timeout);
       getTodos(1);
-    }
+    };
 
     watch(searchText, () => {
       clearTimeout(timeout);
@@ -174,6 +222,10 @@ export default {
     //   return todos.value;
     // });
 
+    const numberOfPages = computed(() => {
+      return Math.ceil(numberOfTodos.value / limit);
+    });
+
     return {
       todos,
       toggleTodo,
@@ -186,7 +238,12 @@ export default {
       numberOfPages,
       currentPage,
       getTodos,
-      searchTodo
+      searchTodo,
+      Toast,
+      toastMessage,
+      toastAlertType,
+      showToast,
+      moveToCreatePage
     };
   },
 };

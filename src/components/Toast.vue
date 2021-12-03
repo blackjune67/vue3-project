@@ -50,7 +50,7 @@ export default {
     },
   },
   setup(props) {
-  console.log('>> show : ' + JSON.stringify(props.isShow));
+  console.log('>> Toast.vue [isShow] : ' + JSON.stringify(props.isShow));
   // watch(() => props.message, () => {
   //   console.log('watch_1 >>>>> ' + props.message);
   //   console.log('watch_2 >>>>> ' + JSON.stringify(props.message.viewMessage));
