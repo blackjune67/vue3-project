@@ -2,14 +2,13 @@
   <div>Home Page</div>
 
   <div>
-    <span>{{ timer }}</span>
-
-     <button @click="restartFive()">Restart</button>
+    <!-- <span>{{ timer }}</span>
+     <button @click="restartFive()">Restart</button> -->
   </div>
 </template>
 
 <script>
-import { useTimer } from 'vue-timer-hook';
+/* import { useTimer } from 'vue-timer-hook';
 import { watchEffect, onMounted } from 'vue';
 
 export default {
@@ -39,7 +38,7 @@ export default {
         restartFive
     }
   },
-};
+}; */
 </script>
 
 <style></style>

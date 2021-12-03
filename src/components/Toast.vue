@@ -1,7 +1,8 @@
 <template>
   <div>
     <div
-      class="alert alert-success toas-box"
+      class="alert toas-box"
+      :class="`alert-${type}`"
       role="alert"
       v-for="mValue in message"
       :key="mValue.idx"
@@ -39,12 +40,17 @@ export default {
       type: Array,
       required: false,
     },
+    type : {
+      type: String,
+      default: 'success'
+    },
     isShow: {
       type: Boolean,
       default: false
     },
   },
-  setup() {
+  setup(props) {
+  console.log('>> show : ' + JSON.stringify(props.isShow));
   // watch(() => props.message, () => {
   //   console.log('watch_1 >>>>> ' + props.message);
   //   console.log('watch_2 >>>>> ' + JSON.stringify(props.message.viewMessage));

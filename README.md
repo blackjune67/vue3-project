@@ -1098,3 +1098,44 @@ console.log('>> 2 : ' + JSON.stringify(props.message.viewMessage));
 ```
 
 v-if랑 v-for이랑 한 태그에 같이 사용은 불가한다.
+
+### 17. vue 컴포넌트 Lifecycle Hooks  
+vue3 에서는 beforeMoune가 아닌 onBeforeMount를 한다.  
+즉, 모든 라이프사이클 훅 앞에 전치사 on을 붙인다.
+
+* onBeforeMount -장착이 시작되기 전에 호출 됨
+* onMounted -컴포넌트가 마운트 될 때 호출됩니다.
+* onBeforeUpdate -반응 형 데이터가 변경 될 때와 다시 렌더링하기 전에 호출됩니다.
+* onUpdated -다시 렌더링 후 호출
+* onBeforeUnmount -Vue 인스턴스가 파괴되기 전에 호출됩니다.
+* onUnmounted -인스턴스가 파괴 된 후 호출됩니다.
+* onActivated -연결 유지 구성 요소가 활성화되면 호출됩니다.
+* onDeactivated -연결 유지 구성 요소가 비활성화 될 때 호출됩니다.
+* onErrorCaptured -하위 구성 요소에서 오류가 캡처 될 때 호출됩니다.
+
+```
+    onBeforeMount(() => {
+      console.log('1 ' + document.querySelector('#june'));
+    }); //component DOM이 실제로 렌더링되고 마운트되기 직전에 호출된다.
+
+    onMounted(() => {
+      console.log('2 ' + document.querySelector('#june'));
+    }); //component를 처음 렌더링 한 후 호출.
+
+    onBeforeUpdate(() => { console
+      console.log('before update');
+    }) //업데이트 되기 전에 실행.
+
+    onUpdated(() => {
+      console.log('updaTe');
+    }) //업데이트 된 후 실행.
+
+    onUnmounted(() => {
+      console.log('befor unmount');
+    }) //컴포넌트를 빠져나가기 전에 메모리 누수가 발생되지 않게 onUnmounted를 사용한다, 메모리 정리할 때 사용하면 좋다.
+
+    onBeforeUnmount(() => {
+      console.log('onBeforeUnmount');
+    }) //이벤트리스너를 제거할 때 사용한다.
+```
+

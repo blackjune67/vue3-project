@@ -33,13 +33,14 @@
     </button>
     <button class="btn btn-warning m-2" @click="moveToListPage">취소</button>
   </form>
-  <Toast v-if="showToast" :message="toastMessage" />
+  <Toast v-if="showToast" :message="toastMessage" :type="toastAlertType" />
+  <div id="june">june</div>
 </template>
 
 <script>
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, onUnmounted } from 'vue';
 import _ from 'lodash';
 import Toast from '@/components/Toast.vue';
 
@@ -55,44 +56,63 @@ export default {
     const loading = ref(true);
     const showToast = ref(false);
     const isShow = ref(true);
+    const timeOut = ref(null);
     //const toastMessage = ref([]);
-    const toastMessage = reactive([ //배열로 보냄.
+    const toastMessage = reactive([
+      //배열로 보냄.
       {
         viewMessage: '',
         idx: null,
       },
     ]);
+    const toastAlertType = ref('');
     const toDoId = route.params.id;
+
+    onUnmounted(() => {
+      console.log('befor unmount');
+      clearTimeout(timeOut.value);
+    }); //컴포넌트를 빠져나가기 전에 메모리 누수가 발생되지 않게 onUnmounted를 사용한다.
+
     // console.log('route : ' + JSON.stringify(route));
     // console.log('router : ' + JSON.stringify(router));
 
     const getTodosDetail = async () => {
-      const res = await axios.get(
-        // `http://localhost:3000/todos/` + route.params.id
-        `http://localhost:3000/todos/${toDoId}`
-      );
-      todo.value = { ...res.data }; //전개 연산자를 사용해서 깊은 복사를 함.
-      originalTodo.value = { ...res.data };
-      loading.value = false;
+      try {
+        const res = await axios.get(
+          // `http://localhost:3000/todos/` + route.params.id
+          `http://localhost:3000/todos/${toDoId}`
+        );
+
+        todo.value = { ...res.data }; //전개 연산자를 사용해서 깊은 복사를 함.
+        originalTodo.value = { ...res.data };
+
+        loading.value = false;
+      } catch (error) {
+        console.log(error);
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
+      }
     };
 
     getTodosDetail();
 
-    const triggerToast = (message) => {
+    const triggerToast = (message, type = 'success') => {
       if (isShow.value === true) {
         toastMessage[0].viewMessage = message;
+        toastAlertType.value = type;
         //toastMessage[0].idx = idx;
         // console.log('>> ' + JSON.stringify(toastMessage));
-        isShow.value = true;
+        // isShow.value = true;
       } else {
         console.log('failed');
       }
 
       showToast.value = true;
-      setTimeout(() => {
-        toastMessage[0].value = ''
+      timeOut.value = setTimeout(() => {
+        console.log('setTimeout!!');
+        toastMessage[0].value = '';
+        toastAlertType.value = '';
         showToast.value = false;
-      }, 3000)
+      }, 3000);
     };
 
     const todoUpdated = computed(() => {
@@ -127,20 +147,18 @@ export default {
         });
 
         originalTodo.value = { ...res.data };
-        isShow.value = true;
+        // isShow.value = true;
         triggerToast('저장했습니다.😘');
       } catch (err) {
         console.log(err);
-        isShow.value = false;
-        triggerToast('에러가 발생했습니다.🤢');
+        // isShow.value = false;
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
 
         setTimeout(() => {
-          console.log('....키키키키키키');
+          console.log('error setTimeout');
           // window.close();
         }, 2000);
       }
-
-  
     };
 
     return {
@@ -154,6 +172,7 @@ export default {
       Toast,
       showToast,
       toastMessage,
+      toastAlertType,
     };
   },
 };
