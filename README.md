@@ -1546,7 +1546,7 @@ console.log(setB);
 => Set(3) {'a', 'b', 'c'}
 ```
 
-has(): 주어진 값이 set안에 존재할 경우, true를 반환한다.
+hash(): 주어진 값이 set안에 존재할 경우, true를 반환한다.
 indexOf() 보다 빠르다. 단, index가 없으면 안된다.
 
 ```
