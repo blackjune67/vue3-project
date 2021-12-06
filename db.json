@@ -1,16 +1,6 @@
 {
   "todos": [
     {
-      "subject": "개세",
-      "completed": false,
-      "id": 1
-    },
-    {
-      "subject": "짭세",
-      "completed": false,
-      "id": 2
-    },
-    {
       "subject": "여보세",
       "completed": false,
       "id": 3
@@ -36,24 +26,6 @@
       "completed": false,
       "body": "ㅁ",
       "id": 7
-    },
-    {
-      "subject": "ㅋ",
-      "completed": false,
-      "body": "ㅋㅋ",
-      "id": 8
-    },
-    {
-      "subject": "ㅁㄴㅇㅁ",
-      "completed": false,
-      "body": "ㄴㅇㅁㅇ",
-      "id": 9
-    },
-    {
-      "subject": "이게 머여?",
-      "completed": false,
-      "body": "ㅋㅋㅋㅋ",
-      "id": 10
     }
   ]
 }
