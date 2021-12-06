@@ -18,7 +18,7 @@
     <hr />
 
     <!-- <TodoSimpleForm @add-todo="addTodo" /> -->
-    <div style="color: red">{{ error }}</div>
+<!--    <div style="color: red">{{ error }}</div>-->
 
     <div v-if="!todos.length">검색 결과가 없습니다.</div>
 
@@ -46,22 +46,11 @@
           class="page-item"
           :class="currentPage === page ? 'active' : ''"
         >
-          <a
-            v-if="numberOfPages !== currentPage"
-            class="page-link"
-            @click="getTodos(page)"
-          >
-            {{ page }}
-          </a>
+          <a style="cursor: pointer" v-if="numberOfPages !== currentPage" class="page-link" @click="getTodos(page)">{{ page }}          </a>
         </li>
 
-        <li class="page-item">
-          <a
-            style="cursor: pointer"
-            class="page-link"
-            @click="getTodos(currentPage + 1)"
-            >Next</a
-          >
+        <li v-if="numberOfPages !== currentPage" class="page-item">
+          <a style="cursor: pointer" class="page-link" @click="getTodos(currentPage + 1)">Next</a>
         </li>
       </ul>
     </nav>
@@ -70,7 +59,6 @@
 
 <script>
 import { ref, computed, watch } from 'vue';
-// import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from '@/axios';
 import { useToast } from '@/composables/toast';
@@ -90,9 +78,10 @@ export default {
     const limit = 5;
     const currentPage = ref(1);
     const searchText = ref('');
-
-    const { toastAlertType, showToast, toastMessage, triggerToast } =
-      useToast();
+    const numberOfPages = computed(() => {
+      return Math.ceil(numberOfTodos.value / limit);
+    });
+    const { toastAlertType, showToast, toastMessage, triggerToast } = useToast();
 
     /*     
 const toasTimeout = ref(null);
@@ -133,16 +122,16 @@ const toasTimeout = ref(null);
       } catch (err) {
         console.log('>>> error : ' + err);
         error.value = '어떤 에러가 발생했습니다.';
+        triggerToast('Something went wrong', 'danger')
       }
     };
 
     getTodos();
 
     const addTodo = async (todo) => {
-      error.value = '';
       //데이터베이스 todo를 저장한다.
+      error.value = '';
       try {
-        console.log('==> addTodo : ' + todo);
         //post request요청 => response응답
         await axios.post('todos', {
           subject: todo.subject,
@@ -151,6 +140,7 @@ const toasTimeout = ref(null);
 
         getTodos(1);
       } catch (err) {
+        console.log(err)
         error.value = '어떤 에러가 발생했습니다.';
         triggerToast('에러가 발생했습니다.🤢', 'danger');
       }
@@ -171,6 +161,8 @@ const toasTimeout = ref(null);
         todos.value[index].completed = checked;
       } catch (err) {
         console.log('>>> toggleTodo error : ' + JSON.stringify(err));
+        error.value = 'Something went wrong.';
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
       }
     };
 
@@ -186,6 +178,7 @@ const toasTimeout = ref(null);
       } catch (err) {
         console.log('>>> deleteTodo error : ' + JSON.stringify(err.data));
         error.value = '어떤 에러가 발생했습니다.';
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
       }
     };
 
@@ -203,7 +196,6 @@ const toasTimeout = ref(null);
 
     watch(searchText, () => {
       clearTimeout(timeout);
-
       timeout = setTimeout(() => {
         // console.log(searchText.value);
         getTodos(1); //항상 첫번째 페이지를 보기 위해 1을 넣음.
@@ -218,10 +210,6 @@ const toasTimeout = ref(null);
 
     //   return todos.value;
     // });
-
-    const numberOfPages = computed(() => {
-      return Math.ceil(numberOfTodos.value / limit);
-    });
 
     return {
       todos,

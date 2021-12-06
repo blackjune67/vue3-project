@@ -7,6 +7,9 @@
             <slot name="title"></slot>
           </h5>
           <button type="button" class="btn-close" @click="onClose"></button>
+<!--          <button type="button" class="close">-->
+<!--            <span @click="onClose">&times;</span>-->
+<!--          </button>-->
         </div>
 
         <div class="modal-body">
@@ -23,13 +26,12 @@
 </template>
 
 <script>
-import { useContext } from 'vue';
+import { getCurrentInstance } from 'vue';
 
 export default {
   setup() {
-    const { emit } = useContext();
+    const { emit } = getCurrentInstance();
     const onClose = () => {
-      console.log('close');
       emit('close');
     };
 

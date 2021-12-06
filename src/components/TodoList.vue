@@ -1,9 +1,5 @@
 <template>
-  <!-- <div v-for="(vTodo, index) in todos" :key="vTodo.id" class="card mt-2"> -->
-    <List
-      :items="todos"
-    >
-    <!-- <template #default="slotProps"> 구조분해가 가능하다. -->
+    <List :items="todos">
     <template #default="{ item, index }"> <!-- 구조분해가 가능하다. -->
     <div
       class="card-body p-2 d-flex align-items-center"
@@ -18,11 +14,7 @@
           @change="toggleTodo(index, $event)"
           @click.stop
         />
-        <!-- <label 
-            class="form-check-label"
-            :style="todo.completed ? todoStyle : {}"
-          > -->
-        <span :class="{ vTodo: item.completed }">
+        <span :class="{ todo: item.completed }">
           {{ item.subject }}
         </span>
       </div>
@@ -38,25 +30,20 @@
     </div>
   </template>
 </List>
+
   <teleport to="#modal">
-    <Modal v-if="showModal" @close="closeModal" @delete="deleteTodo">
-      <!-- <template v-slot:title>
-        Delte Todo!!
-      </template>
-      <template v-slot:body>
-        삭제하시겠습니까?
-      </template>
-      <template v-slot:footer>
-        <button>hello?</button>
-      </template> -->
-    </Modal>
+    <Modal
+        v-if="showModal"
+        @close="closeModal"
+        @delete="deleteTodo"
+    />
   </teleport>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
 import Modal from '@/components/DeleteModal.vue';
-import { ref } from 'vue';
+import { ref, getCurrentInstance } from 'vue';
 import List from '@/components/List.vue';
 
 
@@ -72,7 +59,8 @@ export default {
       required: true,
     },
   },
-  setup(props, { emit }) {
+  setup() {
+    const { emit } = getCurrentInstance();
     const router = useRouter();
     const showModal = ref(false);
     const todoDeleteId = ref(null);

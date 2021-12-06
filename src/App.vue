@@ -1,72 +1,23 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <router-link class="navbar-brand" :to="{ name: 'home' }"
-      >민첩성 코딩캠퍼스</router-link
-    >
-
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <li class="nav-item">
-        <router-link
-          class="nav-link active"
-          aria-current="page"
-          :to="{ name: 'Todos' }"
-          >Todos</router-link
-        >
-      </li>
-    </ul>
-  </nav>
+  <NavBar />
   <div class="container">
-    <router-view />
+    <router-view/>
   </div>
 
-  <transition name="slide">
-  <Toast 
-    :message="toastMessage"
-    :type="toastAlertType" 
-  />
-  </transition>
+  <Toast />
 </template>
 
 <script>
 import Toast from '@/components/Toast.vue';
-import { useToast } from '@/composables/toast';
+import NavBar from '@/components/Navbar.vue';
 
 export default {
   components: {
     Toast,
-  },
-  setup() {
-    const { 
-      toastAlertType,
-      showToast,
-      toastMessage, 
-      triggerToast } = useToast();
-
-    console.log('==> showToast : ' + showToast.value);
-
-    return {
-      toastAlertType,
-      showToast,
-      toastMessage,
-      triggerToast,
-    };
+    NavBar
   },
 };
 </script>
 
 <style scoped>
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: all 0.5s ease;
-  }
-  .slide-enter-from,
-  .slide-leave-to {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  .slide-enter-to,
-  .slide-leave-from {
-    opacity: 1;
-    transform: translateY(0px);
-  }
 </style>

@@ -73,7 +73,6 @@ export default {
   //   },
   // },
   setup(props) {
-    
     const route = useRoute();
     const router = useRouter();
     const todo = ref({
@@ -85,23 +84,13 @@ export default {
     const subjectError = ref('');
     const originalTodo = ref(null);
     const loading = ref(false);
+    const { toastAlertType, showToast, toastMessage, triggerToast } = useToast();
     const toDoId = route.params.id;
-    const { toastAlertType, showToast, toastMessage, triggerToast } =
-      useToast();
-
-    // const updateTodoSubject = (newValue) => {
-    //   console.log(todo.value.subject);
-    //   todo.value.subject = newValue;
-    // }
 
     const getTodosDetail = async () => {
       loading.value = true;
-
       try {
-        const res = await axios.get(
-          // `http://localhost:3000/todos/` + route.params.id
-          `todos/${toDoId}`
-        );
+        const res = await axios.get(`todos/${toDoId}`);
 
         todo.value = { ...res.data }; //전개 연산자를 사용해서 깊은 복사를 함.
         originalTodo.value = { ...res.data };
@@ -109,18 +98,16 @@ export default {
         loading.value = false;
       } catch (err) {
         loading.value = false;
-        triggerToast('에러가 발생했습니다.🤢', 'danger');
         console.log('err : ' + err);
+        triggerToast('에러가 발생했습니다.🤢', 'danger');
       }
     };
 
     const todoUpdated = computed(() => {
-      // console.log('todoUpdated');
       return !_.isEqual(todo.value, originalTodo.value);
     });
 
     const toggleTodoStatus = () => {
-      console.log('>> toggleTodoStatus: ' + todo.value.completed);
       todo.value.completed = !todo.value.completed;
     };
 
@@ -129,6 +116,7 @@ export default {
         name: 'Todos',
       });
     };
+
     /**
      * true면 TodoList를 불러온다.
      */
@@ -158,14 +146,13 @@ export default {
           res = await axios.put(`todos/${toDoId}`, data);
           originalTodo.value = { ...res.data };
         } else {
-          
           res = await axios.post('todos', data);
           todo.value.subject = '';
           todo.value.body = '';
         }
-
         // isShow.value = true;
         const message = (props.editing ? '수정' : '저장') + '했습니다.😘';
+        //const message = 'Successfully ' + (props.editing ? 'Updated!' : 'Created!');
         triggerToast(message);
 
         if(!props.editing) {
@@ -176,9 +163,9 @@ export default {
       } catch (err) {
         triggerToast('에러가 발생했습니다.🤢', 'danger');
 
-        setTimeout(() => {
-          console.log('error : ' + err);
-        }, 2000);
+        // setTimeout(() => {
+        //   console.log('error : ' + err);
+        // }, 2000);
       }
     };
 
@@ -200,7 +187,18 @@ export default {
 </script>
 
 <style scoped>
-.text-red {
-  color: red;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
     <div class="toast-box">
         <transition-group name="slide">
-            <div 
+            <div
                 v-for="toast in toasts"
                 :key="toast.id"
-                class="alert" 
+                class="alert"
                 :class="`alert-${toast.type}`"
                 role="alert"
             >
@@ -16,9 +16,11 @@
 
 <script>
 import { useToast } from '@/composables/toast';
+
 export default {
     setup() {
         const { toasts } = useToast();
+
         return {
             toasts
         }
@@ -32,7 +34,7 @@ export default {
         top: 10px;
         right: 10px;
     }
-    .slide-enter-active,
+  .slide-enter-active,
   .slide-leave-active {
     transition: all 0.5s ease;
   }

@@ -1,6 +1,6 @@
 <template>
   <Modal>
-    <template #title>Delte Todo</template>
+    <template #title>삭제 Todo</template>
     <template #body> 삭제하시겠습니까? </template>
     <template #footer>
       <button type="button" class="btn btn-secondary" @click="onClose">
@@ -15,14 +15,14 @@
 
 <script>
 import Modal from '@/components/Modal.vue';
-import { useContext } from 'vue';
+import { getCurrentInstance } from 'vue';
 
 export default {
   components: {
     Modal,
   },
   setup() {
-    const { emit } = useContext(); 
+    const { emit } = getCurrentInstance();
     const onClose = () => {
       emit('close');
     };
@@ -34,9 +34,9 @@ export default {
     return {
       onClose,
       onDelete,
-    };
-  },
-};
+    }
+  }
+}
 </script>
 
 <style>

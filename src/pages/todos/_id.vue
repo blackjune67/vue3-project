@@ -12,14 +12,9 @@ export default {
   components: {
     TodoForm,
   },
-  setup() {
-    return {
-
-    };
-  },
 };
 </script>
 
-<style scoped>
+<style>
 
 </style>
