@@ -23,26 +23,31 @@
       </div>
 
       <div>
-        <button
-          class="btn btn-danger btn-sm"
-          @click.stop="openModal(vTodo.id)"
-        >
+        <button class="btn btn-danger btn-sm" @click.stop="openModal(vTodo.id)">
           삭제
         </button>
       </div>
     </div>
   </div>
-  <Modal 
-    v-if="showModal" 
-    @close="closeModal"
-    @delete="deleteTodo"
-  />
-  <!-- condition -->
+
+  <teleport to="#modal">
+    <Modal v-if="showModal" @close="closeModal" @delete="deleteTodo">
+      <!-- <template v-slot:title>
+        Delte Todo!!
+      </template>
+      <template v-slot:body>
+        삭제하시겠습니까?
+      </template>
+      <template v-slot:footer>
+        <button>hello?</button>
+      </template> -->
+    </Modal>
+  </teleport>
 </template>
 
 <script>
 import { useRouter } from 'vue-router';
-import Modal from '@/components/Modal.vue';
+import Modal from '@/components/DeleteModal.vue';
 import { ref } from 'vue';
 
 export default {
@@ -78,7 +83,7 @@ export default {
     const deleteTodo = () => {
       emit('toggle-delete', todoDeleteId.value);
       showModal.value = false;
-      todoDeleteId.value= null;
+      todoDeleteId.value = null;
     };
 
     const moveToPage = (vTodoId) => {
@@ -97,7 +102,7 @@ export default {
       moveToPage,
       showModal,
       openModal,
-      closeModal
+      closeModal,
     };
   },
 };

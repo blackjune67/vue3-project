@@ -1139,3 +1139,92 @@ vue3 에서는 beforeMoune가 아닌 onBeforeMount를 한다.
     }) //이벤트리스너를 제거할 때 사용한다.
 ```
 
+### 18. teleport 태그
+
+index.html에 있는 
+
+```
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div> <== 현재 모든 페이지는 app에 마운트가 되서 노출이 되고 있다.
+    <div id="coder"></div> <== 테스트를 위해서 corder라는 id를 줬다.
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+```
+
+TodoList에 아래쪽에 텔레포트태그를 적용했다. 기존 템플릿안에 있던 div가 index.html에 선언한 위치로 태그가 이동이 된 것을 확인할 수 있다.
+```
+<teleport to='#coder'>
+  <div>하준코더!</div>
+  </teleport>
+```
+
+### 19. slot태그
+
+재사용을 목적으로 사용되는 태그이다.  
+Modal.vue에 slot태그를 선언한다.  
+slot태그에 name 속성을 이용할 수 있다.
+```
+<template>
+  <div class="modal-wrapper">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <slot name="title"></slot>
+          </h5>
+          <button type="button" class="btn-close" @click="onClose"></button>
+        </div>
+
+        <div class="modal-body">
+          <slot name="body"></slot>
+          <!-- 재사용 바뀌는 부분 -->
+          삭제하시겠습니까?
+        </div>
+
+        <div class="modal-footer">
+          <slot name="footer"></slot>
+          <button type="button" class="btn btn-secondary" @click="onClose">
+            Close
+          </button>
+          <button type="button" class="btn btn-danger" @click="onDelete">
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+```
+
+TodoList.vue에 teleport 태그와 template의 v-slot을 이용해서 위에 선언된 slot태그와 연동해서 사용할 수 있다.  
+또한 template v-slot을 했을 때 단순히 문자열뿐만 아니라 기존의 태그들도 사용이 가능하다.  
+예제에서는 button태그를 사용했다.  
+```
+    ...
+  <teleport to="#modal">
+    <Modal v-if="showModal" @close="closeModal" @delete="deleteTodo">
+      <template v-slot:title>
+        Delte Todo!!
+      </template>
+      <template v-slot:body>
+        삭제하시겠습니까?
+      </template>
+      <template v-slot:footer>
+      </template>
+    </Modal>
+  </teleport>
+</template>
+```
