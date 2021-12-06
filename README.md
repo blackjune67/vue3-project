@@ -1,34 +1,43 @@
 # vue3-project
-___ 
+
+___
+
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 npm run serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 npm run build
 ```
 
 ### Lints and fixes files
+
 ```
 npm run lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ___
+
 ## Vue3 JS를 학습합니다.
 
 ➡ [vue3 Document](https://v3.vuejs.org/guide/installation.html)
 
 ### 1. Component
+
 Component를 만들 때는 확장자가 .vue로 해서 만들면 됨.
 
 > #### Component 구성
@@ -53,11 +62,14 @@ export default {
 ```
 
 ### 2. Fragment
+
 vue2에서는 div태그를 무조건 한번 감싸야했음.  
 vue3 에서는 이 부분이 개선됨.
 
 ### 3. 함수사용
+
 아래와 같이 함수를 사용할 수 있으며, 지정된 함수는 return을 해서 사용해줘야함.
+
 ```
 export default {
   setup() {
@@ -103,13 +115,13 @@ const updateName = () => {
 ```
 
 ### 5. v-bind, v-on
+
 ***v-bind***와 ***v-on***이 있다.  
 v-bind는 데이터 바인딩을 하는 경우에 사용하며, v-on:click은 클릭 이벤트를 사용할 때 가능하다.  
 v-bind, v-on은 축약해서 사용이 가능하다.
 
 * v-bind ➡ :
 * v-on:click ➡ @click
-
 
 ```
 <input
@@ -140,6 +152,7 @@ v-bind, v-on은 축약해서 사용이 가능하다.
 ```
 
 ### 6. 양방향 바인딩 (v-model)
+
 사용자가 검색을 했을 때 데이터가 표시된다거나, input박스에 값을 넣어서 기존 데이터를 변경한다거나 등을 양방향 데이터 바인딩이라 한다.
 
 이 부분을 아래 코드로 간단히 구현해봤다.
@@ -182,6 +195,7 @@ export default {
 </script>
 
 ```
+
 위의 코드를 v-model을 사용함으로 코드를 줄일 수 있다.
 
 ```
@@ -215,6 +229,7 @@ export default {
 };
 </script>
 ```
+
 ### 7. To-Do List 만들기
 
 >form 태그 특성  
@@ -224,13 +239,12 @@ export default {
 `e.preventDefault();` 를 사용해서 화면 리로딩을 막는다.  
 vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과를 볼 수 있다.  
 
-
 >v-for  
 
 ➡  [vue2 v-for document](https://kr.vuejs.org/v2/guide/list.html)  
   
 자바스크립트의 for...in과 비슷하다.  
-`todo in todos` 에서 **todo**는 별칭으로 개발자가 임의의 alias로 지정이 가능하다.   
+`todo in todos` 에서 **todo**는 별칭으로 개발자가 임의의 alias로 지정이 가능하다.
 다만 v-for를 하게 되면 :key 값을 바인딩해줘야한다. (v-for에 key를 추가하는 것이 좋다고 한다.)  
   
 ```
@@ -243,6 +257,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 >v-show vs v-if  
 
 * v-if
+
 ```
 <div v-if="toggle">true</div>
 <div v-else>false</div>
@@ -250,6 +265,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 ```
 
 * v-show
+
 ```
 <div v-show="toggle">true</div>
 <div v-show="!toggle">false</div>
@@ -259,7 +275,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 ***document 설명***  
 일반적으로 v-if토글 비용 v-show이 높지만 초기 렌더링 비용이 더 높습니다.  
 따라서 v-show무언가를 매우 자주 토글해야 하는 v-if경우 선호 하고 런타임에 조건이 변경되지 않을 경우 선호 합니다.  
-   
+
 😫 v-if와 v-for함께 사용하는 것은 권장되지 않습니다 . 자세한 내용은 스타일 가이드 를 참조 하세요.  
 ➡  [vue3 v-if, v-show document](https://v3.vuejs.org/guide/conditional.html#v-show)  
   
@@ -270,6 +286,7 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 스타일을 바인딩하는 방법에는 여러가지가 있지만 여기서는 ***object바인딩***과 ***class바인딩***을 실습해본다.
 
 * 오브젝트 바인딩
+
 ```
 <label 
   class="form-check-label"
@@ -298,7 +315,6 @@ vue 에서는 `@submit.prevent="onSubmit"`을 사용하면 위와 같은 효과�
 </style>
 ```
 
-   
 > v-for index  
 
 ➡  [vue3 v-for index document](https://v3.vuejs.org/guide/list.html#mapping-an-array-to-elements-with-v-for)  
@@ -315,6 +331,7 @@ v-for문에는 index를 지정해서 사용이 가능하다.
 
 emit을 하기 전에 먼저 ***Composition API***에는 ***Setup()*** 이라는 것이 있다.  
 setup 펑션에는 2가지 전달인자를 가진다.  
+
 1. proops  
 2. context  
   
@@ -341,6 +358,7 @@ setup(props, { attrs, slots, emit }) {
 
 }
 ```
+
 예제 소스를 구조분해할당을 이용해서 아래와 같이 변경이 가능하다.  
 
 ```
@@ -404,6 +422,7 @@ setup(props, { attrs, slots, emit }) {
 **자식 컴포넌트에서 부모컴포넌트로 올려주는 방법.**
 
 1. 자식 컴포넌트에서 emit프로퍼티를 선언 후 첫번째로 이름을 넣고 두번째로는 오브젝트의 프로퍼티를 작성해서 넣으면 된다.  
+
 ```
 자식 컴포넌트  
   ...
@@ -415,6 +434,7 @@ setup(props, { attrs, slots, emit }) {
 ```
 
 2. 부모 컴포넌트에서 자식 컴포넌트를 import하고 부모 컴포넌트에서 컴포넌트를 등록한다.  
+
 ```
 <tamplate>
   <TodoSimpleForm 
@@ -483,16 +503,16 @@ export default {
 
 ➡  [vue3 props Documents](https://v3.vuejs-korea.org/guide/component-props.html#prop-%E1%84%90%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%B8)
 
-
 자식컴포넌트에서 props로 데이터를 받을 때 [] 배열로도 가능하며, {} 오브젝트로도 가능하다.  
 
-
 부모컴포넌트에서 todos를 Array로 보내고 있다.  
+
 ```
 const todos = ref([]); //배열 형태.
 ```
 
 배열 형식.  
+
 ```
 export default {
     props: ['todos'], //배열 형식.
@@ -507,6 +527,7 @@ export default {
 ```
 
 오브젝트 형식.  
+
 ```
 export default {
     props: { //오브젝트 형식.
@@ -527,7 +548,7 @@ export default {
 
 보내는 쪽과 받는 쪽의 type이 다를 경우 아래와 같이 warning message가 출력된다.  
 
-[error message]   
+[error message]
 ***runtime-core.esm-bundler.js?5c40:6591 [Vue warn]: Invalid prop: type check failed for prop "todos". Expected String with value "", got Array***  
 
 **[props 주의점]**  
@@ -535,9 +556,9 @@ export default {
 하위 컴포넌트에서 prop를 변경하려고 시도해서는 안된다.  
 (props로 받은 데이터를 자식컴포넌트에서 변경하면 안된다.)  
 
-
 v-model은 양방향 바인딩이다.  
 v-model에 사용되는 todo의 completed는 결과적으로 todos의 프로퍼티를 업데이트하기때문에 부모 컴포넌트를 사용하는 것이다. 즉, props에 위반되는 행위를 하고 있는 것이다.  
+
 ```
   <input
     class="form-check-input"
@@ -559,11 +580,11 @@ vue에서 반응성으로 동작하는 원리.
 2) 객체의 모든 프로퍼티를 Proxt로 변환(ES6 이상에서만 지원, IE에서도 가능은 함.)
 ***프락시는 다른 객체나 함수를 감싸는 Wrapper객체를 의미, 원본으로의 호출을 중간에 가로채서 처리함.***  
 
-
 > computed  
 ➡  [vue3 Computed Document](https://v3.vuejs.org/guide/computed.html#computed-caching-vs-methods)
 
 computed()와 일반메서드의 차이점  
+
 1. Computed는 인자로 받을 수 없다. reactive state가 있을 때만 변경될 때만 값을 저장한다.
 2. Computed는 캐쉬를 한다.
 
@@ -611,6 +632,7 @@ includes: 특정 요소를 포함하고 있는지 판별.
 ### 10. async / await  
 
 async/await 문법 적용 전
+
 ```
   const res = await axios.post('http://localhost:3000/todos', {
     subject: todo.subject,
@@ -625,6 +647,7 @@ async/await 문법 적용 전
 ```
 
 async/await 문법 적용 후
+
 ```
   try {
     const res = await axios.post('http://localhost:3000/todos', {
@@ -639,11 +662,13 @@ async/await 문법 적용 후
 ```
 
 ### 11. json-server를 통해서 get, post 요청 처리하기.  
+
 ➡  [json-server Document](https://www.npmjs.com/package/json-server)  
 
 REST API 형태를 통해서 POST, GET, PATCH, DELETE를 통해서 DB에 있는 데이터를 트랜잭션해본다.  
 
 GET을 통해서 To-Do 데이터 갖고오기.  
+
 ```
   const getTodos = async () => {
     try {
@@ -658,6 +683,7 @@ GET을 통해서 To-Do 데이터 갖고오기.
 ```
 
 POST를 통해서 To-Do 데이터 추가하기.  
+
 ```
   const addTodo = async (todo) => {
     error.value = '';
@@ -677,6 +703,7 @@ POST를 통해서 To-Do 데이터 추가하기.
 ```
 
 PACH를 통해서 To-Do 데이터 업데이트하기.  
+
 ```
   const toggleTodo = async (index) => {
     error.value = '';
@@ -696,6 +723,7 @@ PACH를 통해서 To-Do 데이터 업데이트하기.
 ```
 
 DELETE를 통해서 To-Do 데이터 삭제하기.  
+
 ```
     const deleteTodo = async (index) => {
       error.value = '';
@@ -712,21 +740,24 @@ DELETE를 통해서 To-Do 데이터 삭제하기.
       }
     }
 ```  
+
 ### 12. watchEffect, watch  
+
 ➡  [vue3 watchEffect, watch Document](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watch)
 
 watchEffect는 처음 컴포넌트가 랜더될 때 최초 1회 실행됩니다.  
 그 이후 watchEffect 내부에 있는 변수가 바뀔 때마다 재실행됩니다.  
 
-  
 부모에 선언된 ref는 ***reactive***한 객체 및 원시타입(primitive)값을 포함한 여러 타입의 값을 받을 수 있다.  
 그래서 watchEffect는 이 reactivity한 값을 받아서 watchEffect에 console.log()에 찍힐 수 있는 것이다.
 부모 컴포넌트(App.vue)
+
 ```
 const todos = ref([]);
 ```  
 
 자식 컴포넌트(TodoList.vue)  
+
 ```
   setup(props, { emit }) {
     watchEffect(() => {
@@ -735,6 +766,7 @@ const todos = ref([]);
 ```
 
 reactive를 사용한 것도 위와 동일하게 반응성있는 값에 대한 변화를 볼 수 있다.
+
 ```
   const a = reactive({
     b : 1
@@ -748,6 +780,7 @@ reactive를 사용한 것도 위와 동일하게 반응성있는 값에 대한 �
 ```
 
 반면에 limit은 reactivity한 값이 아니라서 최초에 한번 실행된 5가 노출될 뿐 값이 3으로 바뀌지는 않는다.
+
 ```
   let limit = 5
 
@@ -759,6 +792,7 @@ reactive를 사용한 것도 위와 동일하게 반응성있는 값에 대한 �
 ```
 
 reactive를 사용했을 때 b의 값을 watch를 하고 있는데, 이때 a의 값을 100으로 변경했기 때문에 console.log에 100과 prev의 값이 찍히는 것.
+
 ```
   const currentPage = ref(1);
 
@@ -774,6 +808,7 @@ reactive를 사용했을 때 b의 값을 watch를 하고 있는데, 이때 a의 
 ```
 
 watching multiple을 하는 방법은 watching할 것을 Array로 변경하면 된다.
+
 ```
   const currentPage = ref(1);
 
@@ -797,8 +832,8 @@ watch, watchEffect는 reactive한 값이 변경되면 그 값을 인지하고 �
 
 ➡  [vue router Documen](https://next.router.vuejs.org/api/#createrouter)  
 
-
 라우터를 사용한 index.js
+
 ```
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../pages/index.vue';
@@ -834,6 +869,7 @@ export default router;
 페이지를 이동할 때 parameter를 바로 받아서 하는 방법과 이름으로 이동하는 방법이 있다.  
 
 index.js에 각각의 라우터 객체에는 name속성이 들어 있다.
+
 ```
 const router = createRouter({
     history: createWebHistory(),
@@ -859,6 +895,7 @@ const router = createRouter({
 ```
 
 1. 파라미터로 접근하는 방법.
+
 ```
   const moveToPage = (vTodoId) => {
     console.log('>> ' + vTodoId);
@@ -867,6 +904,7 @@ const router = createRouter({
 ```
 
 2. name으로 접근하는 방법.
+
 ```
   const moveToPage = (vTodoId) => {
     router.push({
@@ -879,6 +917,7 @@ const router = createRouter({
 ```
 
 3. tamplate에는 router-link에 :to를 이용해서 이름으로 접근할 수 있다.
+
 ```
 <li class="nav-item">
     <router-link
@@ -893,6 +932,7 @@ const router = createRouter({
 useRoute, useRouter  
 useRoute : 현재 경로 위치를 반환하는 것.
 useRouter : 라우터 인스턴스를 반환하는 것.
+
 ```
 /**
  * Returns the current route location. Equivalent to using `$route` inside
@@ -908,6 +948,7 @@ export declare function useRouter(): Router;
 ```
 
 무슨 말일까?? 콘솔로 찍어본다.
+
 ```
 const route = useRoute();
   const router = useRouter();
@@ -918,6 +959,7 @@ const route = useRoute();
 ```
 
 콘솔 결과
+
 ```
 route : {
   "path":"/todos/4","name":"Todo","params":{"id":"4"},"query":{},"hash":"","fullPath":"/todos/4","matched":[{"path":"/todos/:id","name":"Todo","meta":{},"props":{"default":false},"children":[],"instances":{"default":null},"leaveGuards":{},"updateGuards":{},"enterCallbacks":{},"components":{"default":{"__file":"src/pages/todos/_id.vue","__hmrId":"713b03c4"}}}],"meta":{}
@@ -930,6 +972,7 @@ router : {
 
 **[결론]**  
 route는 현재 클라이언트가 바라보고 있는 URI를 의미한다. 그래서 route.params.id를 해서 게시판의 id를 물고 들어올 수 있다.
+
 ```
   const getTodosDetail = async () => {
     const res = await axios.get(
@@ -943,17 +986,14 @@ route는 현재 클라이언트가 바라보고 있는 URI를 의미한다. 그�
 useRouter를 까보면 Router를 상속 받고 있고, useRoute는 RouteLocationNormalizedLoaded에 _RouteLocationBase라는 위치참조하는 객체를 상속하고만 있다.  
 어쨌든 useRouter는 useRoute랑 비슷하지만 조금 더 넓은 의미를 갖고 있다.  
 
-
-
-
 ### 14. 이벤트 버블링  
 
 특정 화면 요소에서 이벤트가 발생했을 때 해당 이벤트가 더 상위의 화면 요소들로 전달되어 가는 특성을 의미한다.  
 이 부분은 vue js의 특성이라기 보다는 Vanilla JS의 특징이다.  
 ➡ [이벤트 버블링 사진](https://joshua1988.github.io/images/posts/web/javascript/event/event-bubble.png)  
 
-
 Vanilla JS
+
 ```
 function stopBubble(event) {
   event.stopPropagation()
@@ -961,6 +1001,7 @@ function stopBubble(event) {
 ```
 
 Vue JS
+
 ```
 <button class="btn btn-danger btn-sm" @click.stop="deleteTodo(index)">
           삭제
@@ -968,6 +1009,7 @@ Vue JS
 ```
 
 이렇게 @change.stop을 하게 되면 먹히지 않는다.
+
 ```
 <input
   class="form-check-input"
@@ -978,6 +1020,7 @@ Vue JS
 ```
 
 때에 따라서 @click.stop을 줘서 막는 경우도 있다.
+
 ```
 <input
   class="form-check-input"
@@ -991,6 +1034,7 @@ Vue JS
 @change vs @click  
 @change는 값이 변하는 걸 감지한  이후에 실행되고, @click은 바로 함수가 실행되는 것이라서
 위 처럼 하지 않고 아래와 같이 @click 이벤트로 변경해도 된다.
+
 ```
 <input
   class="form-check-input"
@@ -999,7 +1043,6 @@ Vue JS
   @click.stop="toggleTodo(index)"
 />
 ```
-
 
 ### 15. 클릭 저장하기  
 
@@ -1019,6 +1062,7 @@ subject 내용과 상태(완료, 미완료)값을 변경 후 저장하는 로직
 ```
 
 이렇게해서 넣어줬음.
+
 ```
     const saveTodoDetail = async () => {
        const res = axios.put('http://localhost:3000/todos/' + route.params.id, {
@@ -1030,6 +1074,7 @@ subject 내용과 상태(완료, 미완료)값을 변경 후 저장하는 로직
 ```
 
 예제에서 한 방법.
+
 ```
 <form v-else @submit.prevent="onSave">
 ```
@@ -1048,10 +1093,12 @@ const onSave = async () => {
 ```
 
 ### 16. 스스로 학습해보자.  
+
 watch => reactivity한 값이 아니면 찍히지 않는다.  
 javascript는 Array로 보내도 .으로 프로퍼티를 바로 접근하게 되면 Object로 인식한다.
 
 부모 컴포넌트에서는 배열로 보내고 있다.
+
 ```
 const toastMessage = reactive([ //배열로 보냄.
   {
@@ -1075,6 +1122,7 @@ const triggerToast = (message) => {
 ```
 
 자식 컴포넌트에서 props로 type이 Array지만 아래와 같이 콘솔로그를 찍으면 결과가 특이하게 나온다.
+
 ```
 export default {
   props: {
@@ -1086,12 +1134,14 @@ export default {
 ```
 
 **[콘솔 로그]**
+
 ```
 console.log('>> 1 : ' + JSON.stringify(props.message));
 console.log('>> 2 : ' + JSON.stringify(props.message.viewMessage));
 ```
 
 **[콘솔 결과]**
+
 ```
 >> 1 : [{"viewMessage":"","idx":null}]
 >> 2 : "success!!"
@@ -1100,6 +1150,7 @@ console.log('>> 2 : ' + JSON.stringify(props.message.viewMessage));
 v-if랑 v-for이랑 한 태그에 같이 사용은 불가한다.
 
 ### 17. vue 컴포넌트 Lifecycle Hooks  
+
 vue3 에서는 beforeMoune가 아닌 onBeforeMount를 한다.  
 즉, 모든 라이프사이클 훅 앞에 전치사 on을 붙인다.
 
@@ -1141,7 +1192,7 @@ vue3 에서는 beforeMoune가 아닌 onBeforeMount를 한다.
 
 ### 18. teleport 태그
 
-index.html에 있는 
+index.html에 있는
 
 ```
 <html lang="en">
@@ -1165,6 +1216,7 @@ index.html에 있는
 ```
 
 TodoList에 아래쪽에 텔레포트태그를 적용했다. 기존 템플릿안에 있던 div가 index.html에 선언한 위치로 태그가 이동이 된 것을 확인할 수 있다.
+
 ```
 <teleport to='#coder'>
   <div>하준코더!</div>
@@ -1172,11 +1224,13 @@ TodoList에 아래쪽에 텔레포트태그를 적용했다. 기존 템플릿안
 ```
 
 ### 19. slot태그
+
 ➡ [vue3 Scoped Slots Document](https://v3.vuejs.org/guide/component-slots.html#scoped-slots)
 
 재사용을 목적으로 사용되는 태그이다.  
 Modal.vue에 slot태그를 선언한다.  
 slot태그에 name 속성을 이용할 수 있다.
+
 ```
 <template>
   <div class="modal-wrapper">
@@ -1213,6 +1267,7 @@ slot태그에 name 속성을 이용할 수 있다.
 TodoList.vue에 teleport 태그와 template의 v-slot을 이용해서 위에 선언된 slot태그와 연동해서 사용할 수 있다.  
 또한 template v-slot을 했을 때 단순히 문자열뿐만 아니라 기존의 태그들도 사용이 가능하다.  
 예제에서는 button태그를 사용했다.  
+
 ```
     ...
   <teleport to="#modal">
@@ -1232,12 +1287,12 @@ TodoList.vue에 teleport 태그와 template의 v-slot을 이용해서 위에 선
 
 v-slot은 #으로 축약해서 사용이 가능하다.  
 
-
 ### 20. Multiple v-model bindings
+
 ➡ [vue3 Multiple v-model bindings Document](https://v3.vuejs.org/guide/component-custom-events.html#v-model-arguments)
 
-
 v-model을 하고 :으로 선언해주고, emit으로 올려주는 컴포넌트에서는 props에 선언된 subject를 emit('update:subject', e.target.value); 안에 update-subject가 아닌 update:subject로 변경해준다.  
+
 ```
 <Input
   label="Subject"
@@ -1279,8 +1334,8 @@ props: {
 여러개의 v-model을 바인딩하려면 v-model:email="email"로 하고 한개만 바인딩는 것은 v-model="email"로 생략이 가능하다.  
 다만 props를 받는 쪽에서는 **modelValue**로 받아야지 가능하다.
 
-
 ### 21. useContext  
+
 **setup() {}** 함수의 두번째 파라미터로 오는 context를 useContext로 접근할 수 있다.  
 
 ```
@@ -1288,8 +1343,8 @@ setup(props, { emit }) {
     ...
 ```
 
-
 이렇게 아래와 같이 사용할 수 있다.
+
 ```
 import { useContext } from 'vue';
     ...
@@ -1297,13 +1352,16 @@ setup() {
   const { emit } = useContext(); 
     ...
 ```
+
 ### 22. toRefs  
+
 ➡ [vue3 toRefs Document](https://v3.vuejs.org/api/refs-api.html#torefs)  
 
 compostion API를 사용하게 되면 setup() 안에서 등록된 props를 this.props와 같이 가져다가 쓸 수 없다.  
 ➡ [블로그 예제](https://iancoding.tistory.com/238)
 
 count.js를 index.vue에서 갖고와서 사용하려고 하는 예제.
+
 ```
 import { reactive, toRefs } from 'vue';
 
@@ -1341,6 +1399,7 @@ export default {
 ```
 
 ### 23. axios URL  
+
 ➡ [axios.create document](https://www.npmjs.com/package/axios)
 
 URL을 따로 설정해서 다른 컴포넌트에서 import를 시켜서 중복되는 URL을 따로 분류해 공통으로 사용할 수 있게 한다.
@@ -1354,6 +1413,7 @@ export default axios.create({
 ```
 
 ### 24. vueX  
+
 ➡ [vuex state document](https://next.vuex.vuejs.org/guide/state.html)
 ➡ [vuex mutations document](https://next.vuex.vuejs.org/guide/mutations.html)
 state를 관리해주는 툴(?)  
@@ -1364,3 +1424,140 @@ mutaions => commit
 action => dispatch
 
 상태는 state에서 관리하고 state를 바꾸는건 mutations에서만 변경이 가능하고, 함수는 actions에서 정의해서 사용하면 된다. 그리고 getters는 컴포넌트에서 사용하는 computed랑 같다.  
+
+vuex modules를 사용해서 폴더처럼 관리할 수 있다.
+
+modules 사용 전
+```
+    state: {
+        toastMessage : '',
+        toastAlertType : '',
+        showToast : false,
+    },
+    mutations: {
+        UPDATE_TOAST_MESSAGE(state, payload) {
+            state.toastMessage = payload;
+        },
+        UPDATE_TOAST_ALERT_TYPE(state, payload) {
+            state.toastAlertType = payload;
+        },
+        UPDATE_TOAST_STATUS(state, payload) {
+            state.showToast = payload;
+        },
+    },
+    actions: {
+        triggerToast({ commit }, message, type='success') {
+            commit('UPDATE_TOAST_MESSAGE', message)
+            commit('UPDATE_TOAST_ALERT_TYPE', type)
+            commit('UPDATE_TOAST_STATUS', true)
+
+            setTimeout(() => {
+                commit('UPDATE_TOAST_MESSAGE', '')
+                commit('UPDATE_TOAST_ALERT_TYPE', '')
+                commit('UPDATE_TOAST_STATUS', false)
+            }, 5000)
+          }
+    },
+    getters: { //vuex에서 사용하는 computed라고 생각하면 될 것 같다.
+        toastMessageWithSmile (state) {
+            return state.toastMessage + '^_^';
+        }
+    },
+```
+
+modules 사용 후
+```
+    modules: {
+        toast: {
+            namespaced: true, //네임스페이스 필수
+            state: {
+                toastMessage : '',
+                toastAlertType : '',
+                showToast : false,
+            },
+            mutations: {
+                UPDATE_TOAST_MESSAGE(state, payload) {
+                    state.toastMessage = payload;
+                },
+                UPDATE_TOAST_ALERT_TYPE(state, payload) {
+                    state.toastAlertType = payload;
+                },
+                UPDATE_TOAST_STATUS(state, payload) {
+                    state.showToast = payload;
+                },
+            },
+            actions: {
+                triggerToast({ commit }, message, type='success') {
+                    commit('UPDATE_TOAST_MESSAGE', message)
+                    commit('UPDATE_TOAST_ALERT_TYPE', type)
+                    commit('UPDATE_TOAST_STATUS', true)
+        
+                    setTimeout(() => {
+                        commit('UPDATE_TOAST_MESSAGE', '')
+                        commit('UPDATE_TOAST_ALERT_TYPE', '')
+                        commit('UPDATE_TOAST_STATUS', false)
+                    }, 5000)
+                  }
+            },
+            getters: { //vuex에서 사용하는 computed라고 생각하면 될 것 같다.
+                toastMessageWithSmile (state) {
+                    return state.toastMessage + '^_^';
+                }
+            },
+        }
+    }
+```
+
+### 25. Map, Set, ...  
+➡ [javacript ES6](https://medium.com/@hongkevin/js-5-es6-map-set-2a9ebf40f96b)
+
+1. Map은 자바스크립의 key-value로 이루어진 컬렉션이다.  
+key를 사용해서 value를 get, set할 수 있다.  
+key들은 중복될 수 없다.  
+key로 사용할 수 있는 데이터형  
+   * String,
+   * symbol,
+   * object,
+   * function >> number는 사용할 수 없다.  
+
+Map을 사용하는 이유?  
+Object를 사용해도 되지만 Map을 사용하는 이유는 Object의 key는 String, symbol만 가능하지만 Map은 어떤 값도 가능하기때문에 Map을 사용한다.  
+➡ [심볼이란?](https://chaeyoung2.tistory.com/40)  
+
+2. Set은 value들로 이루어진 컬렉션이다.  
+Array와는 다르게 Set은 같은 value를 2번 포함할 수 없다.  
+따라서 Set에 이미 존재하는 값을 추가하려고 하면 아무 일도 없다.
+
+```
+let setA = new Set(); //인스턴스A 생성
+
+let setB = new Set().add('a').add('b') //인스턴스B 생성
+
+console.log(setB);
+=> Set(2) {'a', 'b'}
+
+setB.add('c')
+
+console.log(setB);
+=> Set(3) {'a', 'b', 'c'}
+
+setB.add('c')
+console.log(setB);
+=> Set(3) {'a', 'b', 'c'}
+```
+
+has(): 주어진 값이 set안에 존재할 경우, true를 반환한다.
+indexOf() 보다 빠르다. 단, index가 없으면 안된다.
+
+```
+console.log(setB.has('b'))
+=> true
+```  
+
+3. Spread 연산자  
+이터러블 오브젝트의 엘리먼트를 하나씩 분리해서 전개시킨다.
+
+```
+console.log([...'muisc'])
+=> (5) ['m', 'u', 'i', 's', 'c']
+```

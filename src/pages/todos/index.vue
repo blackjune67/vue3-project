@@ -65,7 +65,6 @@
         </li>
       </ul>
     </nav>
-    <Toast v-if="showToast" :message="toastMessage" :type="toastAlertType" />
   </div>
 </template>
 
@@ -74,7 +73,6 @@ import { ref, computed, watch } from 'vue';
 // import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
 import axios from '@/axios';
-import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
 import { useRouter } from 'vue-router';
 
@@ -83,7 +81,6 @@ export default {
     //component가 아닌 components,,, s 붙이셈..
     // TodoSimpleForm,
     TodoList,
-    Toast,
   },
   setup() {
     const router = useRouter();
@@ -239,7 +236,6 @@ const toasTimeout = ref(null);
       currentPage,
       getTodos,
       searchTodo,
-      Toast,
       toastMessage,
       toastAlertType,
       showToast,

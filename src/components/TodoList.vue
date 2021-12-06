@@ -82,7 +82,6 @@ export default {
     };
 
     const openModal = (id) => {
-      console.log('>>>>>>>>>>> : ' + id);
       todoDeleteId.value = id;
       showModal.value = true;
     };

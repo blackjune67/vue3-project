@@ -45,7 +45,6 @@
     </button>
     <button class="btn btn-warning m-2" @click="moveToListPage">취소</button>
   </form>
-  <Toast v-if="showToast" :message="toastMessage" :type="toastAlertType" />
 </template>
 
 <script>
@@ -53,13 +52,11 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from '@/axios';
 import { ref, computed } from 'vue';
 import _ from 'lodash';
-import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
 import Input from '@/components/Input.vue';
 
 export default {
   components: {
-    Toast,
     Input,
   },
   props: {
@@ -193,7 +190,6 @@ export default {
       // saveTodoDetail
       onSave,
       todoUpdated,
-      Toast,
       showToast,
       toastMessage,
       toastAlertType,
