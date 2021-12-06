@@ -1240,7 +1240,7 @@ v-slot은 #으로 축약해서 사용이 가능하다.
 v-model을 하고 :으로 선언해주고, emit으로 올려주는 컴포넌트에서는 props에 선언된 subject를 emit('update:subject', e.target.value); 안에 update-subject가 아닌 update:subject로 변경해준다.  
 ```
 <Input
-  lable="Subject"
+  label="Subject"
   v-model:subject="todo.subject" <== 이런식으로..
   :subject="todo.subject"
   :error="subjectError"
@@ -1352,3 +1352,15 @@ export default axios.create({
     baseURL: 'http://localhost:3000/'
 });
 ```
+
+### 24. vueX  
+➡ [vuex state document](https://next.vuex.vuejs.org/guide/state.html)
+➡ [vuex mutations document](https://next.vuex.vuejs.org/guide/mutations.html)
+state를 관리해주는 툴(?)  
+
+mutaions은 디버깅 목적때문에 무조건 동기적으로만 처리를 해야하는데, action은 비동기로 처리가 가능하다.  
+
+mutaions => commit  
+action => dispatch
+
+상태는 state에서 관리하고 state를 바꾸는건 mutations에서만 변경이 가능하고, 함수는 actions에서 정의해서 사용하면 된다. 그리고 getters는 컴포넌트에서 사용하는 computed랑 같다.  

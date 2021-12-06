@@ -178,7 +178,6 @@ const toasTimeout = ref(null);
     };
 
     const deleteTodo = async (id) => {
-      console.log('>>>> deleteTodo : ' + id);
       error.value = '';
       // const id = todos.value[index].id;
 

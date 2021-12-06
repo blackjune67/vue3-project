@@ -68,14 +68,15 @@ export default {
       default: false,
     },
   },
-  directives: {
-    focus: {
-      mounted(el) {
-        el.focus();
-      },
-    },
-  },
+  // directives: {
+  //   focus: {
+  //     mounted(el) {
+  //       el.focus();
+  //     },
+  //   },
+  // },
   setup(props) {
+    
     const route = useRoute();
     const router = useRouter();
     const todo = ref({
@@ -159,11 +160,9 @@ export default {
            */
           res = await axios.put(`todos/${toDoId}`, data);
           originalTodo.value = { ...res.data };
-          console.log('1');
         } else {
-          console.log('2');
+          
           res = await axios.post('todos', data);
-          //originalTodo.value = { ...res.data };
           todo.value.subject = '';
           todo.value.body = '';
         }
@@ -171,13 +170,17 @@ export default {
         // isShow.value = true;
         const message = (props.editing ? '수정' : '저장') + '했습니다.😘';
         triggerToast(message);
+
+        if(!props.editing) {
+          router.push({
+            name: 'Todos'
+          })
+        }
       } catch (err) {
-        // isShow.value = false;
         triggerToast('에러가 발생했습니다.🤢', 'danger');
 
         setTimeout(() => {
           console.log('error : ' + err);
-          // window.close();
         }, 2000);
       }
     };

@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <label> {{ label }}</label>
+    <label> {{ label }} </label>
     <input type="text" class="form-control" :value="subject" @input="onInput" />
     <!-- directives ?? -->
     <div v-if="error" class="text-red">
