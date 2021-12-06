@@ -1,44 +1,20 @@
 <template>
-  <div>Home Page</div>
-
-  <div>
-    <!-- <span>{{ timer }}</span>
-     <button @click="restartFive()">Restart</button> -->
-  </div>
+  <div>HOME</div>
+  <div>{{ count }}</div>
+  <button
+    @click="count++"
+  >ADD</button>
 </template>
 
 <script>
-/* import { useTimer } from 'vue-timer-hook';
-import { watchEffect, onMounted } from 'vue';
-
+import { useCount } from '@/composables/count';
 export default {
   setup() {
-    const time = new Date();
-    console.log('>> ', time);
-    time.setSeconds(time.getSeconds() + 600);
-    console.log('>> : ' + time.setSeconds(time.getSeconds() + 600));
-    const timer = useTimer(time);
-    console.log('timer : ' + JSON.stringify(timer));
+    const { count } = useCount();
 
-    const restartFive = () => {
-      const time = new Date();
-      time.setSeconds(time.getSeconds() + 300);
-      timer.restart(time);
-    };
-
-    onMounted(() => {
-      watchEffect(async () => {
-        if (timer.isExpired.value) {
-          console.warn('에러 오냐?');
-        }
-      });
-    });
-
-    return {
-        restartFive
-    }
+    return { count };
   },
-}; */
+};
 </script>
 
 <style></style>

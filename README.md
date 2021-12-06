@@ -1172,6 +1172,7 @@ TodoList에 아래쪽에 텔레포트태그를 적용했다. 기존 템플릿안
 ```
 
 ### 19. slot태그
+➡ [vue3 Scoped Slots Document](https://v3.vuejs.org/guide/component-slots.html#scoped-slots)
 
 재사용을 목적으로 사용되는 태그이다.  
 Modal.vue에 slot태그를 선언한다.  
@@ -1227,4 +1228,127 @@ TodoList.vue에 teleport 태그와 template의 v-slot을 이용해서 위에 선
     </Modal>
   </teleport>
 </template>
+```
+
+v-slot은 #으로 축약해서 사용이 가능하다.  
+
+
+### 20. Multiple v-model bindings
+➡ [vue3 Multiple v-model bindings Document](https://v3.vuejs.org/guide/component-custom-events.html#v-model-arguments)
+
+
+v-model을 하고 :으로 선언해주고, emit으로 올려주는 컴포넌트에서는 props에 선언된 subject를 emit('update:subject', e.target.value); 안에 update-subject가 아닌 update:subject로 변경해준다.  
+```
+<Input
+  lable="Subject"
+  v-model:subject="todo.subject" <== 이런식으로..
+  :subject="todo.subject"
+  :error="subjectError"
+  @update-subject="updateTodoSubject"
+/>
+```
+
+```
+props: {
+    label: {
+      type: String,
+      required: true,
+    },
+    error: {
+      type: String,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props, { emit }) {
+    const onInput = (e) => {
+      console.log(e.target.value);
+      emit('update:subject', e.target.value);
+    };
+
+    return {
+      onInput,
+    };
+  },
+```
+
+[결론]  
+여러개의 v-model을 바인딩하려면 v-model:email="email"로 하고 한개만 바인딩는 것은 v-model="email"로 생략이 가능하다.  
+다만 props를 받는 쪽에서는 **modelValue**로 받아야지 가능하다.
+
+
+### 21. useContext  
+**setup() {}** 함수의 두번째 파라미터로 오는 context를 useContext로 접근할 수 있다.  
+
+```
+setup(props, { emit }) { 
+    ...
+```
+
+
+이렇게 아래와 같이 사용할 수 있다.
+```
+import { useContext } from 'vue';
+    ...
+setup() { 
+  const { emit } = useContext(); 
+    ...
+```
+### 22. toRefs  
+➡ [vue3 toRefs Document](https://v3.vuejs.org/api/refs-api.html#torefs)  
+
+compostion API를 사용하게 되면 setup() 안에서 등록된 props를 this.props와 같이 가져다가 쓸 수 없다.  
+➡ [블로그 예제](https://iancoding.tistory.com/238)
+
+count.js를 index.vue에서 갖고와서 사용하려고 하는 예제.
+```
+import { reactive, toRefs } from 'vue';
+
+export const useCount = () => {
+  const state = reactive({
+    // eslint-disable-line no-unused-vars
+    count: 0,
+  });
+
+  return toRefs(state);
+};
+```
+
+```
+<template>
+  <div>HOME</div>
+  <div>{{ count }}</div>
+  <button
+    @click="count++"
+  >ADD</button>
+</template>
+
+<script>
+import { useCount } from '@/composables/count';
+export default {
+  setup() {
+    const { count } = useCount();
+
+    return { count };
+  },
+};
+</script>
+
+<style></style>
+```
+
+### 23. axios URL  
+➡ [axios.create document](https://www.npmjs.com/package/axios)
+
+URL을 따로 설정해서 다른 컴포넌트에서 import를 시켜서 중복되는 URL을 따로 분류해 공통으로 사용할 수 있게 한다.
+
+```
+import axios from 'axios';
+
+export default axios.create({
+    baseURL: 'http://localhost:3000/'
+});
 ```

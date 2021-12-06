@@ -73,7 +73,7 @@
 import { ref, computed, watch } from 'vue';
 // import TodoSimpleForm from '@/components/TodoSimpleForm.vue';
 import TodoList from '@/components/TodoList.vue';
-import axios from 'axios';
+import axios from '@/axios';
 import Toast from '@/components/Toast.vue';
 import { useToast } from '@/composables/toast';
 import { useRouter } from 'vue-router';
@@ -128,7 +128,7 @@ const toasTimeout = ref(null);
       currentPage.value = page;
       try {
         const res = await axios.get(
-          `http://localhost:3000/todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
+          `todos?_sort=id&_order=desc&subject_like=${searchText.value}&_page=${page}&_limit=${limit}`
         );
 
         numberOfTodos.value = res.headers['x-total-count'];
@@ -147,7 +147,7 @@ const toasTimeout = ref(null);
       try {
         console.log('==> addTodo : ' + todo);
         //post request요청 => response응답
-        await axios.post('http://localhost:3000/todos', {
+        await axios.post('todos', {
           subject: todo.subject,
           completed: todo.completed,
         });
@@ -164,7 +164,7 @@ const toasTimeout = ref(null);
       const id = todos.value[index].id;
 
       try {
-        await axios.patch('http://localhost:3000/todos/' + id, {
+        await axios.patch('todos/' + id, {
           // completed: !todos.value[index].completed,
           completed: checked,
         });
@@ -178,11 +178,12 @@ const toasTimeout = ref(null);
     };
 
     const deleteTodo = async (id) => {
+      console.log('>>>> deleteTodo : ' + id);
       error.value = '';
       // const id = todos.value[index].id;
 
       try {
-        await axios.delete('http://localhost:3000/todos/' + id);
+         await axios.delete('todos/' + id);
         // console.log('>>> deleteTodo res : ' + JSON.stringify(res));
         getTodos(1);
         //todos.value.splice(index, 1);

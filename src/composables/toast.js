@@ -35,7 +35,6 @@ export const useToast = () => {
   };
 
   onUnmounted(() => {
-    console.log('before Unmounted, MemoryClear');
     clearTimeout(timeOut.value);
   }); //컴포넌트를 빠져나가기 전에 메모리 누수가 발생되지 않게 onUnmounted를 사용한다.
 
